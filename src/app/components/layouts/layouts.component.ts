@@ -17,7 +17,7 @@ export class LayoutsComponent {
     },
     {
       name:"Kargom Nerede",
-      link:"/home",
+      link:"/mycargo",
       class:""
     },
   ]
