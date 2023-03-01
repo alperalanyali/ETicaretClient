@@ -9,5 +9,22 @@ import { NavbarModel } from 'src/app/common/models/navbar.model';
 })
 export class NavbarComponent {
 
-@Input() navbars:NavbarModel[] = []; 
+  navbars: NavbarModel[] = [
+  
+    {
+      name:"Siparişlerim",
+      link:"/orders",
+      class:""
+    },
+    {
+      name:"Kargom Nerede",
+      link:"/mycargo",
+      class:""
+    },
+    {
+      name:"Ürünler",
+      link:"/productcategory",
+      class:""
+    }
+  ]
 }

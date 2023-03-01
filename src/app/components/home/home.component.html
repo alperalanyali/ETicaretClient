@@ -1,3 +1,29 @@
-<app-layouts>
-    
-</app-layouts>
+
+<div class="mt-4">
+  <!-- <button (click)="increment()">Increment</button>
+
+  <div>Current Count: {{ count$ | async }}</div>
+  
+  <button (click)="decrement()">Decrement</button>
+  
+  <button (click)="reset()">Reset Counter</button> -->
+    <div class="row mx-2">
+            <div class="col-md-3" *ngFor="let productCategory of productCategories">
+              <div class="card" style="width: 18rem;" >
+                <img src="../../../assets//images/{{productCategory.product.imageUrl}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{productCategory.product.name}}</h5>
+                  <p class="card-text">{{productCategory.product.description}}</p>
+                  <p class="card-text">Kategorisi: {{productCategory.category.name}}</p>
+                  <a href="#" class="btn btn-primary">Sepete Ekle</a>
+                </div>
+              </div>
+
+            </div>
+      </div>
+
+    </div>
+
+
+
+

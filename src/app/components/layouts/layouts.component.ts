@@ -8,17 +8,4 @@ import { NavbarModel } from 'src/app/common/models/navbar.model';
 })
 export class LayoutsComponent {
 
-  navbars: NavbarModel[] = [
-  
-    {
-      name:"Siparişlerim",
-      link:"/orders",
-      class:""
-    },
-    {
-      name:"Kargom Nerede",
-      link:"/mycargo",
-      class:""
-    },
-  ]
 }

@@ -1,0 +1,48 @@
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+               <form #addForm="ngForm" (ngSubmit)="addNewProduct(addForm)">
+                <div class="mb-3">
+                    <label for="code" class="col-form-label">Ürün Kodu</label>
+                    <input ngModel type="text" class="form-control" name="code" #code name="code">
+                </div>
+                    <div class="mb-3">
+                        <label for="name" class="col-form-label">Ürün Adı</label>
+                        <input ngModel type="text" class="form-control" #name name="name" id="name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="col-form-label">Ürün Açıklaması</label>
+                        <input ngModel type="text" class="form-control" #description name="description">
+                    </div>
+                    <div class="mb-3">
+                        <label for="quantityTypeId" class="col-form-label">Ürün birimi</label>
+                        <select class="form-control" ngModel name="quantityTypeId" >
+                            <option>Seçiniz</option>
+                            <option  *ngFor="let q of quantityTypes" value="q.id" #quantityTypeId>{{q.name}}</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="col-form-label">Ürün Fiyatı</label>
+                        <input ngModel type="number" class="form-control" name="price" #price id="price">
+                    </div>
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Ürün Fotoğrafı seçiniz</label>
+                        <input  ngModel type="file" class="form-control" name="imageUrl" id="imageUrl" #imageUrl    (change)="handleFileInput($event)">
+            
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
+                      <button type="submit" class="btn btn-primary" >Kaydet</button>
+                    </div>
+                
+               </form>
+        </div>
+      
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,16 @@
+import { CategoryModel } from "./category.model";
+import { ProductModel } from "./product.model";
+import { QuantityTypeModel } from "./quantityType.model";
+
+export class ProductWithCategories{
+    id:string = "";
+    code:string = "";
+    name:string ="";
+    quantityTypeId:string = "";
+    imageUrl:FormData;
+    imageUrl2:string = "";
+    price:number=0;
+    quantityType:QuantityTypeModel;
+    description:string ="";
+    categories:CategoryModel[];
+}
