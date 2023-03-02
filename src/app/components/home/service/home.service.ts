@@ -2,8 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 
 import { FilterModel } from 'src/app/common/models/filter.model';
 import { GenericHttpService } from 'src/app/common/services/generic-http.service';
-import { ProductCategoryModel } from 'src/app/common/models/product-category.model';
-import { ProductModel } from 'src/app/common/models/product.model';
+import { ProductWithCategories } from 'src/app/common/models/product-with-category.model';
 import { ResponseModel } from 'src/app/common/models/response.model';
 
 @Injectable({
@@ -16,8 +15,8 @@ export class HomeService
       private _http: GenericHttpService
   ) { }
 
-  getAll(model:FilterModel,callBack: (res:ResponseModel<ProductCategoryModel[]>)=>void){
+  getAll(model:FilterModel,callBack: (res:ResponseModel<ProductWithCategories[]>)=>void){
     
-    this._http.post<ResponseModel<ProductCategoryModel[]>>("/ProductCategory/GetAllProductCategory",model,res => callBack(res))
+    this._http.post<ResponseModel<ProductWithCategories[]>>("/Product/GetAllProducts",model,res => callBack(res))
   }
 }

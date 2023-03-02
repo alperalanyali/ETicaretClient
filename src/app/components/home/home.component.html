@@ -10,11 +10,14 @@
     <div class="row mx-2">
             <div class="col-md-3" *ngFor="let productCategory of productCategories">
               <div class="card" style="width: 18rem;" >
-                <img src="../../../assets//images/{{productCategory.product.imageUrl}}" class="card-img-top" alt="...">
+                <img src="../../../assets//images/{{productCategory.imageUrl}}" class="card-img-top" alt="...">
                 <div class="card-body">
-                  <h5 class="card-title">{{productCategory.product.name}}</h5>
-                  <p class="card-text">{{productCategory.product.description}}</p>
-                  <p class="card-text">Kategorisi: {{productCategory.category.name}}</p>
+                  <h5 class="card-title">{{productCategory.name}}</h5>
+                  <p class="card-text">{{productCategory.description}}</p>
+                  <div>
+                    <p class="card-text">Kategoriler:</p>
+                    <span class="mx-2" *ngFor="let category of productCategory.categories">{{category.name}}</span>
+                  </div>
                   <a href="#" class="btn btn-primary">Sepete Ekle</a>
                 </div>
               </div>

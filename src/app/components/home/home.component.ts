@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProductCategoryModel } from 'src/app/common/models/product-category.model';
 import { ProductModel } from 'src/app/common/models/product.model';
+import { ProductWithCategories } from 'src/app/common/models/product-with-category.model';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -17,7 +18,7 @@ import { Store } from '@ngrx/store';
 export class HomeComponent implements OnInit {
   count$: Observable<number>  
   
-  productCategories: ProductCategoryModel[] = [];
+  productCategories: ProductWithCategories[] = [];
   constructor(private store: Store<{ count: number }>,
               private _homeService: HomeService,
               private _http:HttpClient
