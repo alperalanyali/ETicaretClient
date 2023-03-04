@@ -3,4 +3,6 @@ export class ResponseModel<T>{
     data:T
     resutls: number; 
     message:string;
+    isExist:boolean;
+    
 }

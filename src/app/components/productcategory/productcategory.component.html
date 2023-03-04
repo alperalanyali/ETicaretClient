@@ -1,5 +1,5 @@
 <div class="d-flex mt-4 " >
-    <button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    <button type="button" class="btn btn-primary " id="openModal" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
         Yeni Kayıt
       </button>
       <button (click)="toggleProductCategory()">
@@ -40,19 +40,28 @@
       <td>{{productCategory.price}}</td>
       <td><img src="../../../assets/images/{{productCategory.imageUrl}}" width="100"></td>
       <td>
-        <p *ngFor="let category of productCategory.categories" class="badge text-dark">{{category.name}}</p>
+        <div  style="border:1px solid lightgaray;color:white" *ngFor="let productCategory of productCategory.productCategories" class="badge text-dark">
+            <div >
+                  {{productCategory.category.name}}
+                  <button class="btn btn-outline-danger btn-sm" (click)="deleteProductCategoryById(productCategory.id)">
+                    <i class="fa fa-trash"></i>
+                  </button>
+            </div>
+
+        </div>
 
       </td>
       <td>
-        <button class="btn btn-outline-warning btn-sm mx-4">
+        <button (click)="getProductCategory(productCategory)" class="btn btn-outline-warning btn-sm mx-4">
           <i class="fa fa-pen"></i>
         </button>
-        <button class="btn btn-outline-danger btn-sm">
+        <button class="btn btn-outline-danger btn-sm" (click)="deleteById(productCategory.id)">
           <i class="fa fa-trash"></i>
         </button>
       </td>
     </tr>
   </tbody>
 </table>
+
 </div>
-<app-productcategory-add></app-productcategory-add>
+<app-productcategory-add [isUpdate]="isUpdate"></app-productcategory-add>

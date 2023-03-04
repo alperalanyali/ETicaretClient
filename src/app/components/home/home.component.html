@@ -16,7 +16,7 @@
                   <p class="card-text">{{productCategory.description}}</p>
                   <div>
                     <p class="card-text">Kategoriler:</p>
-                    <span class="mx-2" *ngFor="let category of productCategory.categories">{{category.name}}</span>
+                    <span class="mx-2" *ngFor="let productCategory of productCategory.productCategories">{{productCategory.category.name}}</span>
                   </div>
                   <a href="#" class="btn btn-primary">Sepete Ekle</a>
                 </div>

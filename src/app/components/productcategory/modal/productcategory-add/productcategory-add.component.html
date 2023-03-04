@@ -3,41 +3,62 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="clearData()" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-               <form #addForm="ngForm" (ngSubmit)="addNewProduct(addForm)">
+               <form #addForm="ngForm">
                 <div class="mb-3">
                     <label for="code" class="col-form-label">Ürün Kodu</label>
-                    <input ngModel type="text" class="form-control" name="code" #code name="code">
+                    <input [(ngModel)]="_productCategoryService.data.code" type="text" class="form-control" name="code" #code name="code">
                 </div>
                     <div class="mb-3">
                         <label for="name" class="col-form-label">Ürün Adı</label>
-                        <input ngModel type="text" class="form-control" #name name="name" id="name">
+                        <input [(ngModel)]="_productCategoryService.data.name" type="text" class="form-control" #name name="name" id="name">
                     </div>
                     <div class="mb-3">
                         <label for="description" class="col-form-label">Ürün Açıklaması</label>
-                        <input ngModel type="text" class="form-control" #description name="description">
+                        <input [(ngModel)]="_productCategoryService.data.description" type="text" class="form-control" #description name="description">
                     </div>
                     <div class="mb-3">
                         <label for="quantityTypeId" class="col-form-label">Ürün birimi</label>
-                        <select class="form-control" ngModel name="quantityTypeId" >
+                        <select class="form-control" [(ngModel)]="_productCategoryService.data.quantityTypeId" name="quantityTypeId" >
                             <option>Seçiniz</option>
-                            <option  *ngFor="let q of quantityTypes" value="q.id" #quantityTypeId>{{q.name}}</option>
+                            <option  *ngFor="let q of quantityTypes" value="{{q.id}}" #quantityTypeId>{{q.name}}</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="price" class="col-form-label">Ürün Fiyatı</label>
-                        <input ngModel type="number" class="form-control" name="price" #price id="price">
+                        <input [(ngModel)]="_productCategoryService.data.price" type="number" class="form-control" name="price" #price id="price">
                     </div>
                     <div class="mb-3">
                         <label for="recipient-name" class="col-form-label">Ürün Fotoğrafı seçiniz</label>
-                        <input  ngModel type="file" class="form-control" name="imageUrl" id="imageUrl" #imageUrl    (change)="handleFileInput($event)">
-            
+                        <input  ngModel type="file" class="form-control" name="imageUrl" id="imageUrl" #imageUrl    (change)="handleFileInput($event)"> 
+                        <img [src]="'../../../../../assets/images/'+_productCategoryService.data.imageUrl" style="width:100px">           
+                    </div>
+                    <div class="mb-3">
+                      <button type="submit" class="btn btn-primary w-100" (click)="addNewProduct(addForm)" >Ürünü Kaydet</button>
+                    </div>
+                    <div class="mb-3 ">
+                      <label>Kategoriler</label>
+                      <div class="row">
+                          <div class="col-md-8">
+                            <select [(ngModel)]="selectedCategoryId" type="category" class="form-control" name="category">
+                              <option>Kategori seçiniz</option>
+                              <option *ngFor="let cat of categories" [value]="cat.id">{{cat.name}}</option>
+                            </select>
+                          </div>
+                          <div class="col-md-4">
+                                <button class="btn btn-outline-secondary" (click)="addProductCategory()">Ekle</button>
+                          </div>
+                          <div class="">
+                            <span class="badge badge-light" *ngFor="let category of selectedProductCategory.productCategories" >{{category.category.name}}</span>
+                          </div>
+
+                      </div>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
-                      <button type="submit" class="btn btn-primary" >Kaydet</button>
+                      <button type="button" class="btn btn-outline-danger" (click)="clearData()" data-bs-dismiss="modal">İptal</button>
+                      <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Tamamla</button>
                     </div>
                 
                </form>
