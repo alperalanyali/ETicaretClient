@@ -14,13 +14,13 @@ export class ToastrService {
     
     switch(type){
       case ToastrType.Success:
-        toastr.success(title,message);
+        toastr.success(message,title);
         break;
       case ToastrType.Info:
         toastr.info(message,title);
         break;
       case ToastrType.Warning:
-        toastr.warning(title,message);
+        toastr.warning(message,title);
         break;
       case ToastrType.Error:
         toastr.error(message,title);

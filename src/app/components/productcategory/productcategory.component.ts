@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ToastrService, ToastrType } from 'src/app/common/services/toastr.service';
 
 import { CategoryModel } from 'src/app/common/models/category.model';
@@ -75,6 +75,10 @@ export class ProductcategoryComponent implements OnInit {
     let openModal = document.getElementById("openModal") as HTMLElement;
     this.isUpdate =true;
     openModal.click()
+    
+    this._productCategoryService.getAllProductCategory(this.filterModel,res => {
+      this.products = res.data;
+    });
   }
 
   deleteById(id:string) {
@@ -90,8 +94,7 @@ export class ProductcategoryComponent implements OnInit {
     )
   }
  
-  deleteProductCategoryById(id:string){
-    debugger;
+  deleteProductCategoryById(id:string){    
     this._swal.callSwal("Evet","Silme","Üründen kategori kaldırmak istiyor musunuz?",()=>{
       this._productCategoryService.deleteProductCategoryById(id,res=>{
           this._toastrService.toast(ToastrType.Info,res.message,"Bilgilendirme");

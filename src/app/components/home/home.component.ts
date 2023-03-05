@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { decrement, increment, reset } from 'src/app/counter.actions';
 
+import { CategoryModel } from 'src/app/common/models/category.model';
 import { FilterModel } from 'src/app/common/models/filter.model';
 import { HomeService } from './service/home.service';
 import { HttpClient } from '@angular/common/http';
@@ -17,25 +18,22 @@ import { Store } from '@ngrx/store';
 })
 export class HomeComponent implements OnInit {
   count$: Observable<number>  
-  
+  categories: CategoryModel[]= [];
   productCategories: ProductWithCategories[] = [];
   constructor(private store: Store<{ count: number }>,
-              private _homeService: HomeService,
-              private _http:HttpClient
+              private _homeService: HomeService,              
     ) {
     this.count$ = store.select('count');
   }
   ngOnInit(): void {
     this.getAll();
+    this.getAllCategories();
   }
   
   increment(){
-    
-    
     this.store.dispatch(increment());
   }
   decrement(){
-    
     this.store.dispatch(decrement());
   }
   reset (){
@@ -51,5 +49,16 @@ export class HomeComponent implements OnInit {
         console.log(this.productCategories)
      });
     
+  }
+
+  getAllCategories(){
+    this._homeService.getAllCategories(res=>{      
+      this.categories = res.data;
+    });
+  }
+  getProductsByCategoryId(categoryId:string){
+    this._homeService.getProductsByCategoryId(categoryId, res=>{      
+      this.productCategories = res.data;
+    })
   }
 }

@@ -50,8 +50,14 @@
                           <div class="col-md-4">
                                 <button class="btn btn-outline-secondary" (click)="addProductCategory()">Ekle</button>
                           </div>
-                          <div class="">
-                            <span class="badge badge-light" *ngFor="let category of selectedProductCategory.productCategories" >{{category.category.name}}</span>
+                          <div class="mt-4">
+                            <span style="border:1px solid darkgray;background-color: darkgray;padding:10px;color:white;border-radius:2px;margin-right: 5px;" *ngFor="let category of _productCategoryService
+                            .data.productCategories" >
+                                {{category.category.name}} 
+                                <button class="btn btn-outline-danger btn-sm" (click)="deleteProductCategoryById(category.id)">
+                                  <i class="fa fa-trash"></i>
+                                </button>
+                            </span>
                           </div>
 
                       </div>

@@ -7,16 +7,26 @@
   <button (click)="decrement()">Decrement</button>
   
   <button (click)="reset()">Reset Counter</button> -->
-    <div class="row mx-2">
+  <div class="mx-4">
+      <span>Kategoriler</span>
+      <div class="list-group list-group-horizontal">
+      
+          <button class="btn btn-outline-primary mx-4" *ngFor="let category of categories" (click)="getProductsByCategoryId(category.id)">
+                {{category.name}}
+          </button>
+      </div>
+    </div>
+    <div class="row mx-2 mt-2">
             <div class="col-md-3" *ngFor="let productCategory of productCategories">
               <div class="card" style="width: 18rem;" >
                 <img src="../../../assets//images/{{productCategory.imageUrl}}" class="card-img-top" alt="...">
                 <div class="card-body">
                   <h5 class="card-title">{{productCategory.name}}</h5>
                   <p class="card-text">{{productCategory.description}}</p>
-                  <div>
+                  <div style="margin-bottom:10px;
+                  ">
                     <p class="card-text">Kategoriler:</p>
-                    <span class="mx-2" *ngFor="let productCategory of productCategory.productCategories">{{productCategory.category.name}}</span>
+                    <span style="background-color: darkgray;padding: 10px;color:white;margin-bottom: 10px;border-radius: 10px;" *ngFor="let productCategory of productCategory.productCategories">{{productCategory.category.name}}</span>
                   </div>
                   <a href="#" class="btn btn-primary">Sepete Ekle</a>
                 </div>

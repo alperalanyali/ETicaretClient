@@ -1,22 +1,8 @@
-<div class="d-flex mt-4 " >
+<div class="mt-4 mx-4 float-right" >
     <button type="button" class="btn btn-primary " id="openModal" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
         Yeni Kayıt
       </button>
-      <button (click)="toggleProductCategory()">
-          Ürün Kategori eşleştirme
-      </button>
-</div>
-<div *ngIf="isVisibleProductCategory" class="from-group">
-  <select class="form-control mt-4" id="productId">
-      <option>Ürünü Seçiniz</option>
-      <option *ngFor="let product of products" value="{{product.id}}">{{product.name}}</option>
-  </select>
 
-  <select class="form-control mt-4" id="categoryId">
-    <option>Kategori Seçiniz</option>
-    <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</option>
-</select>
-<button (click)="createProductCategory()">Kaydet</button>
 </div>
   
 <div class="mx-4">
