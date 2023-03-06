@@ -34,7 +34,7 @@ import { counterReducer } from './counter.reducer';
   imports: [
     BrowserModule,
     HttpClientModule,
-    FormsModule,
+    FormsModule,  
     StoreModule.forRoot({ count: counterReducer }),
     RouterModule.forRoot([
       {

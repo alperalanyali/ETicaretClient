@@ -1,1 +1,33 @@
-<p>basket works!</p>
+<div class="mt-4 mx-4">
+    <table class="table table-bordered"> 
+        <thead>
+            <tr>
+                <th>Ürün Adı</th>
+                <th>Fotoğraf</th>
+                <th>Miktar</th>
+                <th>Birimi</th>
+                <th>Tutarı</th>
+                <th>Toplam Tutarı</th>
+                <th>İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let basketItem of basket.basketItems">
+                <td>{{basketItem.product.name}}</td>
+                <td><img [src]="'../../../assets//images//'+basketItem.product.imageUrl" style="width:100px"></td>
+                <td><input type="number" [value]="basketItem.quantity" id="quantity" class="form-control text-center" (change)="updateBasketItem(basketItem)"></td>
+                <td>{{basketItem.product.quantityType.name}}</td>
+                <td>{{basketItem.product.price}}</td>
+                <td>{{basketItem.totalPrice}}</td>
+                <td>
+                    <button class="btn btn-outline-danger btn-sm" (click)="deleteBasketItem(basketItem.id)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div >
+        <button class="float-end btn btn-outline-primary" (click)="confirmBasket()">Siparişi Onayla</button>
+    </div>
+</div>

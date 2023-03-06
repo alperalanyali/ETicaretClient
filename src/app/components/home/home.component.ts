@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService, ToastrType } from 'src/app/common/services/toastr.service';
 import { decrement, increment, reset } from 'src/app/counter.actions';
 
 import { CategoryModel } from 'src/app/common/models/category.model';
@@ -21,32 +22,36 @@ export class HomeComponent implements OnInit {
   categories: CategoryModel[]= [];
   productCategories: ProductWithCategories[] = [];
   constructor(private store: Store<{ count: number }>,
-              private _homeService: HomeService,              
+              private _homeService: HomeService,
+              private _toastr: ToastrService 
+                           
     ) {
-    this.count$ = store.select('count');
+      this.count$ = store.select('count');
+      store.select("count").subscribe( res => {
+        console.log(res);
+      })
   }
   ngOnInit(): void {
     this.getAll();
     this.getAllCategories();
   }
   
-  increment(){
+  increment() {
     this.store.dispatch(increment());
   }
-  decrement(){
+ 
+  decrement() {
     this.store.dispatch(decrement());
   }
-  reset (){
-    
+ 
+  reset() {
     this.store.dispatch(reset());
   }
-
   getAll(){
     let filterModel: FilterModel = new FilterModel();
     
     this._homeService.getAll(filterModel,res => {
-        this.productCategories = res.data;
-        console.log(this.productCategories)
+        this.productCategories = res.data;      
      });
     
   }
@@ -60,5 +65,12 @@ export class HomeComponent implements OnInit {
     this._homeService.getProductsByCategoryId(categoryId, res=>{      
       this.productCategories = res.data;
     })
+  }
+  addBasket(productId:string,price:number){
+    let userId = JSON.parse(localStorage.getItem("user")).userId;
+    // console.log(userId);
+     this._homeService.checkBasket(userId,productId,price,res =>{
+        this._toastr.toast(ToastrType.Success,res.message,"İşlem");
+     })
   }
 }

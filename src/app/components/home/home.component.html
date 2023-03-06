@@ -1,18 +1,11 @@
 
 <div class="mt-4">
-  <!-- <button (click)="increment()">Increment</button>
-
-  <div>Current Count: {{ count$ | async }}</div>
-  
-  <button (click)="decrement()">Decrement</button>
-  
-  <button (click)="reset()">Reset Counter</button> -->
   <div class="mx-4">
       <span>Kategoriler</span>
       <div class="list-group list-group-horizontal">
       
           <button class="btn btn-outline-primary mx-4" *ngFor="let category of categories" (click)="getProductsByCategoryId(category.id)">
-                {{category.name}}
+                {{category.name}} 
           </button>
       </div>
     </div>
@@ -23,12 +16,13 @@
                 <div class="card-body">
                   <h5 class="card-title">{{productCategory.name}}</h5>
                   <p class="card-text">{{productCategory.description}}</p>
+                  <p class="card-text">{{productCategory.price}}</p>
                   <div style="margin-bottom:10px;
                   ">
                     <p class="card-text">Kategoriler:</p>
                     <span style="background-color: darkgray;padding: 10px;color:white;margin-bottom: 10px;border-radius: 10px;" *ngFor="let productCategory of productCategory.productCategories">{{productCategory.category.name}}</span>
                   </div>
-                  <a href="#" class="btn btn-primary">Sepete Ekle</a>
+                  <a href="#" class="btn btn-primary" (click)="addBasket(productCategory.id,productCategory.price)">Sepete Ekle</a>
                 </div>
               </div>
 
