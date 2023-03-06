@@ -28,6 +28,37 @@
         </tbody>
     </table>
     <div >
-        <button class="float-end btn btn-outline-primary" (click)="confirmBasket()">Siparişi Onayla</button>
+        <button class="float-end btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#orderModal">Sepeti Onayla</button>
     </div>
 </div>
+
+
+
+<div class="modal fade" id="orderModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Sipariş Oluştur</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form #addForm="ngForm">
+                <select [(ngModel)]="order.address" name="addressId" class="form-control mb-4">
+                    <option>Adresinizi seçiniz</option>
+                    <option *ngFor="let address of addresses" value="{{address.id}}">{{address.address1}} {{address.city}}/{{address.country}}</option>
+                </select>
+                <select [(ngModel)]="order.paymentTypeId" name="paymentTypeId" class="form-control mb-4">
+                    <option>Adresinizi seçiniz</option>
+                    <option *ngFor="let paymentType of paymentTypes" value="{{paymentType.id}}">{{paymentType.name}} </option>
+                </select>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-outline-primary" (click)="confirmBasket()">Tamamla</button>
+                  </div>
+            </form>
+        </div>
+      
+      </div>
+    </div>
+  </div>

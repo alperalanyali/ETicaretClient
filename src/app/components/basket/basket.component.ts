@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService, ToastrType } from 'src/app/common/services/toastr.service';
 
+import { AddressModel } from 'src/app/common/models/address.model';
 import { BasketItemModel } from 'src/app/common/models/basketItem.model';
 import { BasketModel } from 'src/app/common/models/basket.model';
 import { BasketService } from './service/basket.service';
+import { OrderModel } from 'src/app/common/models/order.model';
+import { PaymentTypeModel } from 'src/app/common/models/payment-type.model';
 import { SwalService } from 'src/app/common/services/swal.service';
 
 @Component({
@@ -14,7 +17,9 @@ import { SwalService } from 'src/app/common/services/swal.service';
 export class BasketComponent  implements OnInit {
 
   basket: BasketModel = new BasketModel();
-
+  addresses:AddressModel[]= []
+  paymentTypes: PaymentTypeModel[] =[];
+  order:OrderModel = new OrderModel();
 constructor(
   private _basketService: BasketService,
   private  _toastr: ToastrService,
@@ -25,6 +30,8 @@ constructor(
   
   ngOnInit(): void {
     this.getBasket();
+    this.getAddresses();
+    this.getPaymentTypes();
   }
 
 
@@ -53,7 +60,28 @@ constructor(
         })
       })
   }
+  getAddresses(){
+    let user = JSON.parse(localStorage.getItem("user"));
+    this._basketService.getAddressesByUserId(user.userId, res=>{
+      this.addresses = res.data;
+    })
+  }
+  getPaymentTypes(){
+    this._basketService.getPaymentType(res=>{
+      this.paymentTypes = res.data;
+    })
+  }
   confirmBasket(){
-    
+    let user = JSON.parse(localStorage.getItem("user"));
+    this.order.userId = user.userId;  
+    this._basketService.createOrder(this.order,res=>{
+      this._toastr.toast(ToastrType.Success,res.message,"İşlem");
+      let orderId:string="";
+      this._basketService.getLastOrderByUserId(user.userId,res=>{
+        orderId=res.data.id;
+      })
+
+      
+    })
   }
 }

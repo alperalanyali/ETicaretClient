@@ -19,8 +19,14 @@
             Sepetim
           </a>
       </div>
+        <div class="nav-item mx-2">
+          <a class="nav-link" routerLink="/profile"> 
+            <i class="fa-solid fa-user"></i>
+          </a>
+        </div>
             <div class="nav-item">
                 <a *ngIf="isLoginVisible" class="nav-link" routerLink="/login"><i class="fa-solid fa-right-to-bracket"></i>Giriş</a>
+             
                 <a *ngIf="!isLoginVisible" class="nav-link" (click)="logout()"><i class="fa-solid fa-right-to-bracket"></i>Çıkış</a>
             </div>
       </div>
