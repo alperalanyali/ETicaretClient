@@ -12,10 +12,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let basketItem of basket.basketItems">
+            <tr *ngFor="let basketItem of basket.basketItems let index = index">
                 <td>{{basketItem.product.name}}</td>
                 <td><img [src]="'../../../assets//images//'+basketItem.product.imageUrl" style="width:100px"></td>
-                <td><input type="number" [value]="basketItem.quantity" id="quantity" class="form-control text-center" (change)="updateBasketItem(basketItem)"></td>
+                <td><input type="number" [value]="basketItem.quantity" id="quantity" class="form-control text-center" (change)="updateBasketItem($event,index)"></td>
                 <td>{{basketItem.product.quantityType.name}}</td>
                 <td>{{basketItem.product.price}}</td>
                 <td>{{basketItem.totalPrice}}</td>
@@ -42,18 +42,70 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form #addForm="ngForm">
-                <select [(ngModel)]="order.address" name="addressId" class="form-control mb-4">
-                    <option>Adresinizi seçiniz</option>
-                    <option *ngFor="let address of addresses" value="{{address.id}}">{{address.address1}} {{address.city}}/{{address.country}}</option>
-                </select>
-                <select [(ngModel)]="order.paymentTypeId" name="paymentTypeId" class="form-control mb-4">
-                    <option>Adresinizi seçiniz</option>
-                    <option *ngFor="let paymentType of paymentTypes" value="{{paymentType.id}}">{{paymentType.name}} </option>
-                </select>
+            <form #addForm="ngForm"  class="was-validated">
+                <div class="input-group has-validation mb-4">
+                    <select [(ngModel)]="order.address" name="addressId" class="form-control is-invalid" required>
+                        <option>Adresinizi seçiniz</option>
+                        <option *ngFor="let address of addresses" value="{{address.id}}">{{address.address1}} {{address.city}}/{{address.country}}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                            Adresiniz seçiniz
+                      </div>
+                </div>
+                <div  class="input-group has-validation mb-4">
+                    <select [(ngModel)]="order.paymentTypeId" name="paymentTypeId" class="form-control is-invalid" required>
+                        <option>Adresinizi seçiniz</option>
+                        <option *ngFor="let paymentType of paymentTypes" value="{{paymentType.id}}">{{paymentType.name}} </option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Ödeme tipini seçiniz
+                      </div>
+                </div>
+                <div *ngIf=" order.paymentTypeId.toUpperCase() == '5BFB7A32-726D-4291-890D-A24BC2CC50C7'">
+                    <div>
+                        <label class="text-muted text-center">Kredi Kartı Bilgiler</label>  
+                    </div>
+                        <div class="row">                                
+                                <div class="col-md-4">     
+                                    <label class="text-muted ">Son Kullanım Yılı</label>                               
+                                    <select class="form-control mb-2" name="year" [(ngModel)]="creditCardInfo.validYear">
+                                        <option>Lütfen yıl seçiniz</option>
+                                        <option>2023</option>
+                                        <option>2024</option>
+                                        <option>2025</option>
+                                    </select>                                          
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="text-muted ">Son Kullanım Ayı </label>
+                                    <select class="form-control" name="validMonth" [(ngModel)]="creditCardInfo.validMonth">
+                                        <option>Ay seçiniz</option>
+                                        <option *ngFor="let month of months">{{month}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                
+                                    <label>CVV</label>
+                                    <input placeholder="CVV" name="cvv" [(ngModel)]="creditCardInfo.cvv" class="form-control">                                        
+                                </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <label class="text-muted">Kredi Sahibinin Adı Soyadı</label>
+                                <input placeholder="Adınız soyadınız giriniz" name="fullName" [(ngModel)]="creditCardInfo.fullName" class="form-control input-upper">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <label>Kredi Kart Numarası</label>
+                                <input [(ngModel)]="creditCardInfo.carNumber" name="carNumber" placeholder="Kredi Kart Numarası" class="form-control" (keyup)="checkCreditNumber()">
+                            </div>
+                        </div>
+                      
+                </div>
+               
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
                     <button type="button" class="btn btn-outline-primary" (click)="confirmBasket()">Tamamla</button>
                   </div>
             </form>

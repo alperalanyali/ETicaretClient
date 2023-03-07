@@ -5,6 +5,7 @@ import { AddressModel } from 'src/app/common/models/address.model';
 import { BasketItemModel } from 'src/app/common/models/basketItem.model';
 import { BasketModel } from 'src/app/common/models/basket.model';
 import { BasketService } from './service/basket.service';
+import { CreditCardInfo } from 'src/app/common/models/credit-card-info.model';
 import { OrderModel } from 'src/app/common/models/order.model';
 import { PaymentTypeModel } from 'src/app/common/models/payment-type.model';
 import { SwalService } from 'src/app/common/services/swal.service';
@@ -20,12 +21,17 @@ export class BasketComponent  implements OnInit {
   addresses:AddressModel[]= []
   paymentTypes: PaymentTypeModel[] =[];
   order:OrderModel = new OrderModel();
+  creditCardInfo:CreditCardInfo = new CreditCardInfo();
+  months:number[] = []
 constructor(
   private _basketService: BasketService,
   private  _toastr: ToastrService,
   private _swal: SwalService
   ){
-  
+  for (let index = 1; index <= 12; index++) {
+    this.months.push(index);
+    
+  }
 }
   
   ngOnInit(): void {
@@ -42,9 +48,9 @@ constructor(
     });
   
   }
-  updateBasketItem(basketItem:BasketItemModel){
-    let quantity = document.getElementById("quantity") as HTMLInputElement;
-    basketItem.quantity = +quantity.value;
+  updateBasketItem(event:any,index:number){
+    let basketItem = this.basket.basketItems[index];
+    basketItem.quantity = event.target.value;
     basketItem.totalPrice = basketItem.quantity * basketItem.product.price;
     this._basketService.updateBasketItem(basketItem,res=>{
         this._toastr.toast(ToastrType.Info,res.message);
@@ -69,19 +75,35 @@ constructor(
   getPaymentTypes(){
     this._basketService.getPaymentType(res=>{
       this.paymentTypes = res.data;
+      console.log(this.paymentTypes);
     })
   }
   confirmBasket(){
     let user = JSON.parse(localStorage.getItem("user"));
     this.order.userId = user.userId;  
-    this._basketService.createOrder(this.order,res=>{
+    this._basketService.createOrder(this.order,this.basket,res=>{
       this._toastr.toast(ToastrType.Success,res.message,"İşlem");
       let orderId:string="";
       this._basketService.getLastOrderByUserId(user.userId,res=>{
         orderId=res.data.id;
-      })
-
-      
+      })    
     })
+  }
+
+  
+  checkCreditNumber(){
+      console.log(this.creditCardInfo.carNumber.length);
+      if(this.creditCardInfo.carNumber.length == 4){
+        this.creditCardInfo.carNumber = this.creditCardInfo.carNumber+" "
+      }
+      if(this.creditCardInfo.carNumber.length == 9){
+        this.creditCardInfo.carNumber = this.creditCardInfo.carNumber+" "
+      }
+      if(this.creditCardInfo.carNumber.length == 14){
+        this.creditCardInfo.carNumber = this.creditCardInfo.carNumber+" "
+      }
+      if(this.creditCardInfo.carNumber.length >= 19){
+        return
+      }
   }
 }

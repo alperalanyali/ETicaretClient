@@ -7,7 +7,7 @@ export class ProductModel {
     quantityTypeId:string = "";
     imageUrl:FormData;
     imageUrl2:string = "";
-    price:number=0;
+    price:number=0;    
     quantityType:QuantityTypeModel;
     description:string ="";
     

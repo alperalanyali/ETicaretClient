@@ -16,12 +16,14 @@ export class BasketService {
     private _http:GenericHttpService
     ) { }
 
+    basket :BasketModel = new BasketModel();
+    order: OrderModel = new OrderModel();
     getLastBasketIdByUserId(userId:string,callBack:(res:ResponseModel<BasketModel>)=> void){
     
       let model:{userId:string} = {userId:userId}
       
       this._http.post<ResponseModel<BasketModel>>("/Basket/GetBasketIdByUserId",model,res=>{        
-          callBack(res);
+          callBack(res);                    
       })
     }
 
@@ -50,17 +52,39 @@ export class BasketService {
         callBack(res);
       })
     }
-    createOrder(order:OrderModel,callBack:(res:ResponseModel<string>)=>void){
-      
+    createOrder(order:OrderModel,basket:BasketModel,callBack:(res:ResponseModel<string>)=>void){
+            
       this._http.post<ResponseModel<string>>("/Order/Create",order,res=>{
-          callBack(res);          
+          callBack(res);     
+          this.getLastOrderByUserId(order.userId,res=>{
+             let orderId = res.data.id;
+             this.createOrderItems(orderId,basket.basketItems,res=>{
+                callBack(res);
+                this.deleteBasketId(basket.id,res=>{
+                  console.log(res);
+                })
+             });
+          });    
       });
     }
     getLastOrderByUserId(userId:string,callBack:(res:ResponseModel<OrderModel>)=> void){
       let model:{userId:string} = {userId:userId};
       this._http.post<ResponseModel<OrderModel>>("/Order/GetLastOrderByUserId",model,res=>{
         callBack(res);
+        
       })
     }
-    
+
+    deleteBasketId(basketId:string,callBack:(res:ResponseModel<string>)=>void){
+      let model:{id:string}={id:basketId};
+      this._http.post<ResponseModel<string>>("/Basket/Delete",model,res=>{
+        callBack(res);
+      })
+    }
+    createOrderItems(orderId:string,basketItems:BasketItemModel[],callBack:(res:ResponseModel<string>)=>void) {
+      let model:{orderId:string,basketItems:BasketItemModel[]} = {orderId:orderId,basketItems:basketItems}
+      this._http.post<ResponseModel<string>>("/OrderItem/CreateOrderItemsWithBasketItems",model,res=>{            
+            callBack(res);
+      })
+    }
 }

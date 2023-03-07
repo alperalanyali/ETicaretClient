@@ -1,1 +1,43 @@
-<p>orders works!</p>
+<div class="mt-4 mx-4">
+        <table class="table table-border">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Ödeme Tipi</th>
+                        <th>Adres</th>
+                        <th>Sip. Oluş. Tarihi</th>
+                        <th>Sipariş Kalemleri</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let order of orders let index = index">
+                        <td>{{index + 1}}</td>
+                        <td>{{order.paymentType.name}}</td>
+                        <td>{{order.address.address1}} {{order.address.city}}/{{order.address.country}}</td>
+                        <td>{{order.createdDate | date:"dd.MM.yyyy HH:mm"}}</td>
+                        <td>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Ürün Adı</th>
+                                        <th>Miktarı</th>
+                                        <th>Birimi</th>
+                                        <th>Tutarı</th>
+                                        <th>Toplam Tutarı</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let orderItem of order.orderItems">
+                                        <td>{{orderItem.product.name}}</td>
+                                        <td>{{orderItem.quantity}}</td>
+                                        <td>{{orderItem.product.quantityType.name}}</td>
+                                        <td>{{orderItem.product.price}}</td>
+                                        <td>{{orderItem.totalPrice}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+        </table>
+</div>
