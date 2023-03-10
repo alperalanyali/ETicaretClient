@@ -10,7 +10,6 @@ import { MycargoComponent } from './components/mycargo/mycargo.component';
 import { NavbarComponent } from './components/layouts/navbar/navbar.component';
 import { NgModule } from '@angular/core';
 import { OrdersComponent } from './components/orders/orders.component';
-import { ProductcategoryAddComponent } from './components/productcategory/modal/productcategory-add/productcategory-add.component';
 import {ProductcategoryComponent} from './components/productcategory/productcategory.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -29,8 +28,9 @@ import { counterReducer } from './counter.reducer';
     OrdersComponent,
     MycargoComponent,
     BasketComponent,
-    ProductcategoryComponent,    
-    ProductcategoryAddComponent, ProfileComponent
+    ProductcategoryComponent,
+     ProfileComponent
+     
   ],
   imports: [
     BrowserModule,
@@ -76,6 +76,10 @@ import { counterReducer } from './counter.reducer';
       {
         path:"login",
         component:LoginComponent
+      },
+      {
+        path:"register",
+        component:RegisterComponent
       }
     ]),
     StoreModule.forRoot({}, {})

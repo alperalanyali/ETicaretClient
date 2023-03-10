@@ -97,7 +97,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <label>Kredi Kart Numarası</label>
-                                <input [(ngModel)]="creditCardInfo.carNumber" name="carNumber" placeholder="Kredi Kart Numarası" class="form-control" (keyup)="checkCreditNumber()">
+                                <input [(ngModel)]="creditCardInfo.carNumber" name="carNumber" placeholder="Kredi Kart Numarası" class="form-control" (keyup)="checkCreditNumber()" maxlength="19">
                             </div>
                         </div>
                       

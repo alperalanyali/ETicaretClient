@@ -6,7 +6,7 @@ import { CategoryModel } from 'src/app/common/models/category.model';
 import { FilterModel } from 'src/app/common/models/filter.model';
 import { GenericHttpService } from 'src/app/common/services/generic-http.service';
 import { LoginResponseModel } from 'src/app/common/models/login-response.model';
-import { ProductWithCategories } from 'src/app/common/models/product-with-category.model';
+import { ProductStoreModel } from 'src/app/common/models/product-store-model';
 import { ResponseModel } from 'src/app/common/models/response.model';
 
 @Injectable({
@@ -21,27 +21,26 @@ export class HomeService
 
   basket:BasketModel = new BasketModel();
 
-  getAll(model:FilterModel,callBack: (res:ResponseModel<ProductWithCategories[]>)=>void){
+  getAll(model:FilterModel,callBack: (res:ResponseModel<ProductStoreModel[]>)=>void){
     
-    this._http.post<ResponseModel<ProductWithCategories[]>>("/Product/GetAllProducts",model,res => callBack(res))
+    this._http.get<ResponseModel<ProductStoreModel[]>>("/ProductStore/GetAll",res => callBack(res))
   }
   getAllCategories(callBack:(res:ResponseModel<CategoryModel[]>)=> void){
     this._http.get<ResponseModel<CategoryModel[]>>("/Category/GetAll",res =>{
       callBack(res);
     })
   }
-  getProductsByCategoryId(categoryId:string,callBack:(res:ResponseModel<ProductWithCategories[]>)=> void){
-    debugger;
+  getProductsByCategoryId(categoryId:string,callBack:(res:ResponseModel<ProductStoreModel[]>)=> void){    
     let model ={categoryId:categoryId}
     if(categoryId.toUpperCase() ==="0A2E737F-0C81-41ED-BD0C-9A02A8F16F1E"){
-      this._http.post<ResponseModel<ProductWithCategories[]>>("/Product/GetAllProducts",model,res => callBack(res));
+      this._http.get<ResponseModel<ProductStoreModel[]>>("/ProductStore/GetAll",res => callBack(res))
     }else {
-      this._http.post<ResponseModel<ProductWithCategories[]>>("/Product/GetProductsByCategoryId",model,res=>callBack(res));  
+      this._http.post<ResponseModel<ProductStoreModel[]>>("/ProductStore/GetProductStoresByCategoryId",model,res=>callBack(res));  
     }
   }
 
-  checkBasket(userId:string,productId:string,price:number,callBack:(res:ResponseModel<string>)=> void){       
-        let basket:{userId:string,totalAmount:number}   ={
+  checkBasket(userId:string,productId:string,price:Number,callBack:(res:ResponseModel<string>)=> void){       
+        let basket:{userId:string,totalAmount:Number}   ={
           userId:userId,
           totalAmount:0          
         };
@@ -61,7 +60,7 @@ export class HomeService
                 model.basketId = this.basket.id;
                 model.productId = productId;
                 model.quantity = 1;
-                model.totalPrice = model.quantity * price;
+                model.totalPrice = model.quantity * +price;
                 this.addBasket(model,res => {
                   callBack(res);
                 })

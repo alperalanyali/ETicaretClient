@@ -12,7 +12,10 @@
                          <input autocomplete="off" class="w-100" [(ngModel)]="loginRequest.password">
                         <div class="invalid-feedback">Password must be 8 character!</div>
                     </div>
-                    <div class="mb-3"> <button v-on:click.stop.prevent="submit" class="btn btn-dark w-100" (click)="login()">Login</button> </div>
+                    <div class="mb-3"> 
+                        <button v-on:click.stop.prevent="submit" class="btn btn-dark w-100 mb-4" (click)="login()">Login</button> 
+                        <button class="btn btn-outline-secondary w-100" routerLink="/register">Üye değil misini?</button>
+                    </div>
                 
                 </div>
             
@@ -23,3 +26,6 @@
         </div>
     </div>
 </div>
+<div class="float-right">
+
+</div> 

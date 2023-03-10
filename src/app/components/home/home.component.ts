@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProductCategoryModel } from 'src/app/common/models/product-category.model';
 import { ProductModel } from 'src/app/common/models/product.model';
-import { ProductWithCategories } from 'src/app/common/models/product-with-category.model';
+import { ProductStoreModel } from 'src/app/common/models/product-store-model';
 import { Store } from '@ngrx/store';
 
 @Component({
@@ -20,7 +20,7 @@ import { Store } from '@ngrx/store';
 export class HomeComponent implements OnInit {
   count$: Observable<number>  
   categories: CategoryModel[]= [];
-  productCategories: ProductWithCategories[] = [];
+  productStores: ProductStoreModel[] = [];
   constructor(private store: Store<{ count: number }>,
               private _homeService: HomeService,
               private _toastr: ToastrService 
@@ -51,7 +51,7 @@ export class HomeComponent implements OnInit {
     let filterModel: FilterModel = new FilterModel();
     
     this._homeService.getAll(filterModel,res => {
-        this.productCategories = res.data;      
+        this.productStores = res.data;      
      });
     
   }
@@ -63,10 +63,10 @@ export class HomeComponent implements OnInit {
   }
   getProductsByCategoryId(categoryId:string){
     this._homeService.getProductsByCategoryId(categoryId, res=>{      
-      this.productCategories = res.data;
+      this.productStores = res.data;
     })
   }
-  addBasket(productId:string,price:number){
+  addBasket(productId:string,price:Number){
     let userId = JSON.parse(localStorage.getItem("user")).userId;
     // console.log(userId);
      this._homeService.checkBasket(userId,productId,price,res =>{

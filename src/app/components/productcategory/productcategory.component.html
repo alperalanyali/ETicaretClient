@@ -1,53 +1,121 @@
-<div class="mt-4 mx-4 float-right" >
-    <button type="button" class="btn btn-primary " id="openModal" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Yeni Kayıt
-      </button>
-
+<div class="mt-4 mb-2 mx-4">
+  <button class="float-end btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#orderModal">Yeni
+    Kayıt</button>
 </div>
-  
+
+
 <div class="mx-4">
-<table class="table table-bordered mt-4 ">
-  <thead>
-    <tr>
-      <th>Ürün Kodu</th>
-      <th>Ürün Adı</th>
-      <th>Ürün Açıklaması</th>
-      <th>Ürün Fiyatı</th>
-      <th>Ürün Foto</th>
-      <th>Kategorileri</th>
-      <th>İşlemler</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let productCategory of productWithCategories">
-      <td>{{productCategory.code}}</td>
-      <td>{{productCategory.name}}</td>
-      <td>{{productCategory.description}}</td>
-      <td>{{productCategory.price}}</td>
-      <td><img src="../../../assets/images/{{productCategory.imageUrl}}" width="100"></td>
-      <td>
-        <div  style="border:1px solid lightgaray;color:white" *ngFor="let productCategory of productCategory.productCategories" class="badge text-dark">
-            <div >
-                  {{productCategory.category.name}}
-                  <button class="btn btn-outline-danger btn-sm" (click)="deleteProductCategoryById(productCategory.id)">
-                    <i class="fa fa-trash"></i>
-                  </button>
-            </div>
+  <table class="table table-bordered mt-4 ">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Magaza Adı</th>
+        <th>Ürün Kodu</th>
+        <th>Ürün Adı</th>
+        <th>Ürün Açıklaması</th>
+        <th>Ürün Fiyatı</th>
+        <th>Ürün Foto</th>
+        <th>Kategorileri</th>
+        <th>İşlemler</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let productStore of productStores let index = index">
+        <td>{{index + 1}}</td>
+        <td>{{productStore.store.storeName}}</td>
+        <td>{{productStore.product.code}}</td>
+        <td>{{productStore.product.name}}</td>
+        <td>{{productStore.product.description}}</td>
+        <td>{{productStore.price}}</td>
+        <td><img src="../../../assets/images/{{productStore.product.imageUrl}}" style="width:100px"></td>
+        <td>
+          <span *ngFor="let category of productStore.product.productCategories">{{category.category.name}}</span>
+        </td>
+        <td>
+          <button class="btn btn-outline-warning btn-sm">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button class="btn btn-outline-danger btn-sm mx-1">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
 
-        </div>
-
-      </td>
-      <td>
-        <button (click)="getProductCategory(productCategory)" class="btn btn-outline-warning btn-sm mx-4">
-          <i class="fa fa-pen"></i>
-        </button>
-        <button class="btn btn-outline-danger btn-sm" (click)="deleteById(productCategory.id)">
-          <i class="fa fa-trash"></i>
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
+    </tbody>
+  </table>
 </div>
-<app-productcategory-add [isUpdate]="isUpdate"></app-productcategory-add>
+
+
+<div class="modal fade" id="orderModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Ürün Ekleme</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-tabs mb-4">
+          <li class="nav-item">
+            <a class="nav-link"  (click)="btnProductClicked()">Ürün Kayıtı</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="btnCategoryClicked()">Ürüne Kategoris Ekleme</a>
+          </li>
+        </ul>
+        <div>
+        <form  *ngIf="isProductBtnClick" #addForm="ngForm" (ngSubmit)="createProduct(addForm)" class="was-invalidated">
+          <div clas="from-group mb-4">
+            <label class="text-muted">Kodu</label>
+            <input type="text" ngModel  class="form-control" name="code">
+          </div>
+          <div clas="from-group mb-4">
+            <label class="text-muted">Adı</label>
+            <input type="text" class="form-control" ngModel name="name">
+          </div>
+          <div clas="from-group mb-4">
+            <label class="text-muted">Açıklaması</label>
+            <input type="text" class="form-control" ngModel name="description">
+          </div>
+          <div clas="from-group mb-4">
+            <label class="text-muted">Fiyatı</label>
+            <input type="text" class="form-control" ngModel name="price">
+          </div>
+          <div clas="from-group mb-6">
+            <label class="text-muted">Birimi</label>
+            <select class="form-control" ngModel name="quantityTypeId">
+              <option>Seçiniz</option>
+              <option *ngFor="let quantityType of quantityTypes" value="{{quantityType.id
+                    }}"> {{quantityType.name}}</option>
+            </select>
+          </div>
+          <div clas="from-group mb-4">
+            <label label class="text-muted">Fotoğrafı</label>
+            <input type="file" class="form-control" (change)="handleFileInput($event)" ngModel name="imageUrl">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
+            <button type="submit" class="btn btn-outline-primary">Ürünü Kaydet</button>
+          </div>
+        </form>
+
+        <form  *ngIf="isCategoryBtnClick" #addCategoryForm="ngForm" class="was-invalidated">
+
+          <div clas="from-group mb-6">
+            <label class="text-muted">Ürün Birimi</label>
+            <select class="form-control" ngModel name="categoryId">
+              <option>Seçiniz</option>
+              <option *ngFor="let category of categories" value="{{category.id
+                    }}" > {{category.name}}</option>
+            </select>
+            <button (click)="createProductCategory(addCategoryForm)">Ekle</button>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
+            <button type="button" class="btn btn-outline-primary">Tamamla</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

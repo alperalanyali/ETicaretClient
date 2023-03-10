@@ -86,24 +86,26 @@ constructor(
       let orderId:string="";
       this._basketService.getLastOrderByUserId(user.userId,res=>{
         orderId=res.data.id;
+        this.getBasket();
       })    
     })
   }
 
   
-  checkCreditNumber(){
-      console.log(this.creditCardInfo.carNumber.length);
+  checkCreditNumber(){      
+ 
       if(this.creditCardInfo.carNumber.length == 4){
         this.creditCardInfo.carNumber = this.creditCardInfo.carNumber+" "
       }
-      if(this.creditCardInfo.carNumber.length == 9){
+      else if(this.creditCardInfo.carNumber.length == 9){
         this.creditCardInfo.carNumber = this.creditCardInfo.carNumber+" "
       }
-      if(this.creditCardInfo.carNumber.length == 14){
+      else if(this.creditCardInfo.carNumber.length == 14){
         this.creditCardInfo.carNumber = this.creditCardInfo.carNumber+" "
+      } else {
+      
       }
-      if(this.creditCardInfo.carNumber.length >= 19){
-        return
-      }
+      
+      
   }
 }

@@ -4,7 +4,7 @@ import { GenericHttpService } from 'src/app/common/services/generic-http.service
 import { Injectable } from '@angular/core';
 import { ProductCategoryModel } from 'src/app/common/models/product-category.model';
 import { ProductModel } from 'src/app/common/models/product.model';
-import { ProductWithCategories } from 'src/app/common/models/product-with-category.model';
+import { ProductStoreModel } from 'src/app/common/models/product-store-model';
 import { QuantityTypeModel } from 'src/app/common/models/quantityType.model';
 import { RequestProduct } from 'src/app/common/models/product.request';
 import { RequestProductCategory } from '../models/request-product-category';
@@ -15,85 +15,37 @@ import { ResponseModel } from 'src/app/common/models/response.model';
 })
 export class ProductcategoryService {
 
-  data:ProductWithCategories = new ProductWithCategories();
+  data:ProductStoreModel = new ProductStoreModel();
+  productId:string="";
   constructor(
     private _httpService:GenericHttpService
   ) { }
-    getAllProducts(filterModel:FilterModel,callBack:(res:ResponseModel<ProductModel[]>)=> void){
-        this._httpService.post<ResponseModel<ProductModel[]>>("/Product/GetAllProducts"
-        ,filterModel,res=>{
-          callBack(res);
-        })
-      
-    }
-    getAllCategory(callBack:(res:ResponseModel<CategoryModel[]>)=> void){
-      this._httpService.get<ResponseModel<CategoryModel[]>>("/Category/GetAll",res =>{
-        callBack(res);
-      })
-    }
-    createNewProduct(model:any,callBack:(res:ResponseModel<string>)=> void){
-      this._httpService.post<ResponseModel<string>>('/Product/Create',model,res => callBack(res));
-    }
-    getQuantityType(callBack:(res:ResponseModel<QuantityTypeModel[]>)=> void){
-      this._httpService.get<ResponseModel<QuantityTypeModel[]>>('/QuantityType/GetAllQuantityTypes',res=>{
-        callBack(res);
-      })
-    }
+  
 
-    getCategories(callBack:(res:ResponseModel<CategoryModel[]>)=> void){
-      this._httpService.get<ResponseModel<CategoryModel[]>>('/Category/GetAll',res=>{
-          callBack(res);
-      });
-    }
-    getAllProductCategory(model:FilterModel,callBack:(res:ResponseModel<ProductWithCategories[]>)=>void){
-        this._httpService.post<ResponseModel<ProductWithCategories[]>>('/Product/GetAllProducts',model,res=>{            
+  getProductStores(filterModel:FilterModel,callBack:(res:ResponseModel<ProductStoreModel[]>)=> void) {
+    this._httpService.post<ResponseModel<ProductStoreModel[]>>("/ProductStore/GetAll",filterModel,res => {
             callBack(res);
-        });
-    }
+          }) 
+  }
+  getQuantityTypes(callBack:(res:ResponseModel<QuantityTypeModel[]>)=> void){
+    this._httpService.get<ResponseModel<QuantityTypeModel[]>>("/QuantityType/GetAllQuantityTypes",res => callBack(res));
+  }
 
-    createProductCategory(model:RequestProductCategory,callBack:(res:ResponseModel<string>)=>void){
-        this._httpService.post<ResponseModel<string>>("/ProductCategory/Create",model,res=>{
-            console.log(res);
-            callBack(res);
-        })
-    }
+  getCategories(callBack:(res:ResponseModel<CategoryModel[]>)=> void){
+    this._httpService.get<ResponseModel<QuantityTypeModel[]>>("/Category/GetAll",res => callBack(res));
+  }
+  createProduct(model:any,callBack:(res:ResponseModel<string>)=> void){
+ 
+    this._httpService.post<ResponseModel<string>>("/Product/create",model,res =>{
+      callBack(res)      
+    } );
+  }
 
-    checkProductExist(model:RequestProduct,callBack :(res:ResponseModel<boolean>)=>void){
-      
-      this._httpService.post<ResponseModel<boolean>>('/Product/checkProductExist',model,res => callBack(res));
-    }
-
-    getProductByCodeAndName(model:RequestProduct,callBack:(res:ResponseModel<ProductModel>)=> void){
-      this._httpService.post<ResponseModel<ProductModel>>("/Product/GetProductByCodeAndName",model,res => callBack(res));
-    }
-
-    deleteById(model:RequestProduct, callBack:(res:ResponseModel<string>)=> void){
-      this._httpService.post<ResponseModel<string>>("/Product/Delete",model,res=> callBack(res));
-    
-    }
-    deleteProductCategoryById(id:string,callBack:(res:ResponseModel<string>)=> void){
-      let model:{id:string} = {id:id};
-      this._httpService.post<ResponseModel<string>>("/ProductCategory/Delete",model,res=> callBack(res));
-    }
-
-    getProductCategoryByProductId(productId:string, callBack:(res:ResponseModel<ProductCategoryModel[]>)=>void){
-      let model:{productId:string}={productId:productId};      
-      this._httpService.post<ResponseModel<ProductCategoryModel[]>>("/ProductCategory/GetProductCategoriesByProductId",model,res=> {        
-        callBack(res)
-      });
-    } 
-    updateProduct(model:any,callBack:(res:ResponseModel<string>)=> void){
-      debugger;
-      this._httpService.post<ResponseModel<string>>("/Product/Update",model,res => {
-        console.log(res);
-        callBack(res);
-      })
-    }
-
-    getProductById(id:string,callBack :(res:ResponseModel<ProductWithCategories>)=> void) {
-      let model = {id:id};
-      this._httpService.post<ResponseModel<ProductWithCategories>>("/Product/GetProductById",model,res => {
-        callBack(res);
-      })
-    }
+  createProductCategory(model:any,callBack:(res:ResponseModel<string>)=> void){
+    this._httpService.post<ResponseModel<string>>("/ProductCategory/Create",model,res => callBack(res));  
+  }
+  
+  getProductCategoryByProductId(productId:string,callBack:(res:ResponseModel<ProductCategoryModel[]>)=>void){
+      this._httpService.post<ResponseModel<ProductCategoryModel[]>>("/ProductCategory/GetProductCategoriesByProductId",productId,res => callBack(res));
+  }
 }

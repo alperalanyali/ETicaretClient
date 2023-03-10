@@ -1,3 +1,4 @@
+import { ProductCategoryModel } from "./product-category.model";
 import { QuantityTypeModel } from "./quantityType.model";
 
 export class ProductModel {
@@ -10,5 +11,6 @@ export class ProductModel {
     price:number=0;    
     quantityType:QuantityTypeModel;
     description:string ="";
+    productCategories : ProductCategoryModel[] = [];
     
 }
