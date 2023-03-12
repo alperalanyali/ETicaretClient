@@ -23,7 +23,7 @@
                     <p class="card-text">Kategoriler:</p>
                     <span style="background-color: darkgray;padding: 10px;color:white;margin-bottom: 10px;border-radius: 10px;" *ngFor="let productCategory of productStore.product.productCategories">{{productCategory.category.name}}</span>
                   </div>
-                  <a href="#" class="btn btn-primary" (click)="addBasket(productStore.product.id,productStore.price)">Sepete Ekle</a>
+                  <a  class="btn btn-primary" (click)="addBasket(productStore.id,productStore.price)">Sepete Ekle</a>
                 </div>
               </div>
 

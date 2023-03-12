@@ -16,6 +16,7 @@ import { RegisterComponent } from './components/register/register.component';
 import {RouterModule} from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { counterReducer } from './counter.reducer';
+import { ValidDirective } from './common/directive/valid.directive';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { counterReducer } from './counter.reducer';
     MycargoComponent,
     BasketComponent,
     ProductcategoryComponent,
-     ProfileComponent
+     ProfileComponent,
+     ValidDirective
      
   ],
   imports: [

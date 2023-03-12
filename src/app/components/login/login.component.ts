@@ -31,10 +31,9 @@ constructor(
     this._authService.login(this.loginRequest,res=>{
       if(res.isSuccess){        
         this._toastr.toast(ToastrType.Success,res.message,"Başarılı");
-        this._router.navigateByUrl("/");
-        console.log(res)
+        this._router.navigateByUrl("/");        
         const userJson = JSON.stringify(res); 
-        console.log(userJson);
+  
         localStorage.setItem("user",userJson);
       }else {
         this._toastr.toast(ToastrType.Error,res.message,"Giriş İşlemi")

@@ -1,5 +1,6 @@
+import Swal, { SweetAlertIcon } from 'sweetalert2';
+
 import { Injectable } from '@angular/core';
-import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -8,14 +9,15 @@ export class SwalService {
 
   constructor() { }
 
-  callSwal(confirmBtnName:string,title:string,text:string,callBack:()=>void){
+  callSwal(confirmBtnName:string,title:string,text:string,type:SweetAlertIcon,callBack:()=>void){
     Swal.fire({
       title: title,      
       html:
         text,      
       showCancelButton: true,
       focusConfirm: false,
-      confirmButtonText:confirmBtnName,      
+      confirmButtonText:confirmBtnName,   
+      icon:type,
       cancelButtonText:
         "Vazgeç",      
     }).then(res => {
@@ -25,4 +27,13 @@ export class SwalService {
     })
     
   }
+}
+
+
+export enum SwalType {
+  error,
+  info,
+  question,
+  warning,
+  success
 }

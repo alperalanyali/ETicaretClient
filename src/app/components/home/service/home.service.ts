@@ -10,96 +10,139 @@ import { ProductStoreModel } from 'src/app/common/models/product-store-model';
 import { ResponseModel } from 'src/app/common/models/response.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class HomeService 
- {
+export class HomeService {
+  constructor(private _http: GenericHttpService) {}
 
-  constructor(
-      private _http: GenericHttpService
-  ) { }
+  basket: BasketModel = new BasketModel();
 
-  basket:BasketModel = new BasketModel();
-
-  getAll(model:FilterModel,callBack: (res:ResponseModel<ProductStoreModel[]>)=>void){
-    
-    this._http.get<ResponseModel<ProductStoreModel[]>>("/ProductStore/GetAll",res => callBack(res))
+  getAll(
+    model: FilterModel,
+    callBack: (res: ResponseModel<ProductStoreModel[]>) => void
+  ) {
+    this._http.get<ResponseModel<ProductStoreModel[]>>(
+      '/ProductStore/GetAll',
+      (res) => callBack(res)
+    );
   }
-  getAllCategories(callBack:(res:ResponseModel<CategoryModel[]>)=> void){
-    this._http.get<ResponseModel<CategoryModel[]>>("/Category/GetAll",res =>{
-      callBack(res);
-    })
+  getAllCategories(callBack: (res: ResponseModel<CategoryModel[]>) => void) {
+    this._http.get<ResponseModel<CategoryModel[]>>(
+      '/Category/GetAll',
+      (res) => {
+        callBack(res);
+      }
+    );
   }
-  getProductsByCategoryId(categoryId:string,callBack:(res:ResponseModel<ProductStoreModel[]>)=> void){    
-    let model ={categoryId:categoryId}
-    if(categoryId.toUpperCase() ==="0A2E737F-0C81-41ED-BD0C-9A02A8F16F1E"){
-      this._http.get<ResponseModel<ProductStoreModel[]>>("/ProductStore/GetAll",res => callBack(res))
-    }else {
-      this._http.post<ResponseModel<ProductStoreModel[]>>("/ProductStore/GetProductStoresByCategoryId",model,res=>callBack(res));  
+  getProductsByCategoryId(
+    categoryId: string,
+    callBack: (res: ResponseModel<ProductStoreModel[]>) => void
+  ) {
+    let model = { categoryId: categoryId };
+    if (categoryId.toUpperCase() === '0A2E737F-0C81-41ED-BD0C-9A02A8F16F1E') {
+      this._http.get<ResponseModel<ProductStoreModel[]>>(
+        '/ProductStore/GetAll',
+        (res) => callBack(res)
+      );
+    } else {
+      this._http.post<ResponseModel<ProductStoreModel[]>>(
+        '/ProductStore/GetProductStoresByCategoryId',
+        model,
+        (res) => callBack(res)
+      );
     }
   }
 
-  checkBasket(userId:string,productId:string,price:Number,callBack:(res:ResponseModel<string>)=> void){       
-        let basket:{userId:string,totalAmount:Number}   ={
-          userId:userId,
-          totalAmount:0          
-        };
-     
-        this.getLastBasketIdByUserId(userId,res1 =>{
-          
-          console.log(res1)
-          this.basket = res1.data;
-          if(this.basket == null){
-            this._http.post<ResponseModel<string>>("/Basket/Create",basket,res2=>{
-              
-            })
-          }else {
-            let productInsideBasket=this.basket.basketItems.find(item => item.productId == productId);
-            if(productInsideBasket == undefined) {
-                let model:BasketItemModel = new BasketItemModel();
-                model.basketId = this.basket.id;
-                model.productId = productId;
-                model.quantity = 1;
-                model.totalPrice = model.quantity * +price;
-                this.addBasket(model,res => {
-                  callBack(res);
-                })
-            }else {
-              console.log(productInsideBasket);
-              productInsideBasket.quantity++;
-              productInsideBasket.totalPrice = productInsideBasket.product.price * productInsideBasket.quantity;
-              this.updateBasket(productInsideBasket,res =>{
-                  callBack(res);
-              });
-            }
+  checkBasket(
+    userId: string,
+    productStoreId: string,
+    price: Number,
+    callBack: (res: ResponseModel<string>) => void
+  ) {
+  
+    let basket: { userId: string; totalAmount: Number } = {
+      userId: userId,
+      totalAmount: 0,
+    };
+
+    this.getLastBasketIdByUserId(userId, (res1) => {
+      console.log(res1);
+    
+      this.basket = res1.data;
+      if (this.basket == null) {
+        this._http.post<ResponseModel<string>>(
+          '/Basket/Create',
+          basket,
+          (res2) => {
+            debugger;
+            console.log(res2);
           }
-            
-        })
-       
-   
+        );
+      } else {
+        let productInsideBasket = this.basket.basketItems.find(
+          (item) => item.productStoreId == productStoreId
+        );
+        if (productInsideBasket == undefined) {
+          let model: BasketItemModel = new BasketItemModel();
+          model.basketId = this.basket.id;
+          model.productStoreId = productStoreId;
+          model.quantity = 1;
+          model.totalPrice = model.quantity * +price;
+          this.addBasket(model, (res) => {
+            callBack(res);
+          });
+        } else {
+          console.log(productInsideBasket);
+          productInsideBasket.quantity++;
+          productInsideBasket.totalPrice =
+            +productInsideBasket.productStore.price *
+            productInsideBasket.quantity;
+          this.updateBasket(productInsideBasket, (res) => {
+            callBack(res);
+          });
+        }
+      }
+    });
   }
 
-  getLastBasketIdByUserId(userId:string,callBack:(res:ResponseModel<BasketModel>)=> void){
-    
-    let model:{userId:string} = {userId:userId}
-    
-    this._http.post<ResponseModel<BasketModel>>("/Basket/GetBasketIdByUserId",model,res=>{        
+  getLastBasketIdByUserId(
+    userId: string,
+    callBack: (res: ResponseModel<BasketModel>) => void
+  ) {
+    let model: { userId: string } = { userId: userId };
+
+    this._http.post<ResponseModel<BasketModel>>(
+      '/Basket/GetBasketIdByUserId',
+      model,
+      (res) => {
         callBack(res);
-    })
-  }
-  
-
-  addBasket(baskItem:BasketItemModel,callBack: (res:ResponseModel<string>)=> void){
-      this._http.post<ResponseModel<string>>("/BasketItem/Create",baskItem,res=>{
-          callBack(res);
-      })
+      }
+    );
   }
 
-  updateBasket(basketItem:BasketItemModel,callBack:(res:ResponseModel<string>)=>void){
-      this._http.post<ResponseModel<string>>("/BasketItem/Update",basketItem,res=>{
+  addBasket(
+    baskItem: BasketItemModel,
+    callBack: (res: ResponseModel<string>) => void
+  ) {
+    this._http.post<ResponseModel<string>>(
+      '/BasketItem/Create',
+      baskItem,
+      (res) => {
         callBack(res);
-      })
+      }
+    );
   }
 
-  
+  updateBasket(
+    basketItem: BasketItemModel,
+    callBack: (res: ResponseModel<string>) => void
+  ) {
+    this._http.post<ResponseModel<string>>(
+      '/BasketItem/Update',
+      basketItem,
+      (res) => {
+        callBack(res);
+      }
+    );
+  }
 }

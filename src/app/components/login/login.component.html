@@ -1,11 +1,12 @@
 <div class="container mt-5">
     <div class="row d-flex justify-content-center">
         <div class="col-md-10">
+            <!-- <form #loginForm="ngForm" > -->
             <div class="card px-5 py-5" id="form1">
                 <div class="form-data" v-if="!submitted">
                     
                     <div class="forms-inputs mb-4 w-100"> <span>Email or username</span>
-                         <input autocomplete="off" type="text" class="w-100" [(ngModel)]="loginRequest.emailOrUsername">
+                         <input autocomplete="off" type="text" class="w-100" [(ngModel)]="loginRequest.emailOrUsername" #emailOrUsername required minlength="3" [appValid]="emailOrUsername.validity.valid">
                         <div class="invalid-feedback">A valid email is required!</div>
                     </div>
                     <div class="forms-inputs mb-4"> <span>Password</span>
@@ -13,7 +14,8 @@
                         <div class="invalid-feedback">Password must be 8 character!</div>
                     </div>
                     <div class="mb-3"> 
-                        <button v-on:click.stop.prevent="submit" class="btn btn-dark w-100 mb-4" (click)="login()">Login</button> 
+                        <button v-on:click.stop.prevent="submit" class="btn btn-dark w-100 mb-4" (click)="login()">Giriş Yap
+                        </button> 
                         <button class="btn btn-outline-secondary w-100" routerLink="/register">Üye değil misini?</button>
                     </div>
                 
@@ -23,7 +25,9 @@
                     <div class="text-center d-flex flex-column"> <i class='bx bxs-badge-check'></i> <span class="text-center fs-1">You have been logged in <br> Successfully</span> </div>
                 </div>
             </div>
+        <!-- </form> -->
         </div>
+    
     </div>
 </div>
 <div class="float-right">

@@ -51,7 +51,7 @@ constructor(
   updateBasketItem(event:any,index:number){
     let basketItem = this.basket.basketItems[index];
     basketItem.quantity = event.target.value;
-    basketItem.totalPrice = basketItem.quantity * basketItem.product.price;
+    basketItem.totalPrice = basketItem.quantity * +basketItem.productStore.price;
     this._basketService.updateBasketItem(basketItem,res=>{
         this._toastr.toast(ToastrType.Info,res.message);
 
@@ -59,7 +59,7 @@ constructor(
     })
   }
   deleteBasketItem(id:string){
-      this._swal.callSwal("Evet","Silme İşlemi","Ürünü sepetten silmek istiyor musunuz?",()=>{
+      this._swal.callSwal("Evet","Silme İşlemi","Ürünü sepetten silmek istiyor musunuz?","question",()=>{
         this._basketService.deleteBasketItem(id,res=>{
           this._toastr.toast(ToastrType.Info,res.message,"İşlem");
           this.getBasket();

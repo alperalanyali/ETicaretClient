@@ -66,10 +66,10 @@ export class HomeComponent implements OnInit {
       this.productStores = res.data;
     })
   }
-  addBasket(productId:string,price:Number){
+  addBasket(productStoreId:string,price:Number){
+    console.log(productStoreId);    
     let userId = JSON.parse(localStorage.getItem("user")).userId;
-    // console.log(userId);
-     this._homeService.checkBasket(userId,productId,price,res =>{
+     this._homeService.checkBasket(userId,productStoreId,price,res =>{
         this._toastr.toast(ToastrType.Success,res.message,"İşlem");
      })
   }

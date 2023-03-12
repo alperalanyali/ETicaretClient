@@ -13,11 +13,11 @@
         </thead>
         <tbody>
             <tr *ngFor="let basketItem of basket.basketItems let index = index">
-                <td>{{basketItem.product.name}}</td>
-                <td><img [src]="'../../../assets//images//'+basketItem.product.imageUrl" style="width:100px"></td>
+                <td>{{basketItem.productStore.product.name}}</td>
+                <td><img [src]="'../../../assets//images//'+basketItem.productStore.product.imageUrl" style="width:100px"></td>
                 <td><input type="number" [value]="basketItem.quantity" id="quantity" class="form-control text-center" (change)="updateBasketItem($event,index)"></td>
-                <td>{{basketItem.product.quantityType.name}}</td>
-                <td>{{basketItem.product.price}}</td>
+                <td>{{basketItem.productStore.product.quantityType.name}}</td>
+                <td>{{basketItem.productStore.price}}</td>
                 <td>{{basketItem.totalPrice}}</td>
                 <td>
                     <button class="btn btn-outline-danger btn-sm" (click)="deleteBasketItem(basketItem.id)">

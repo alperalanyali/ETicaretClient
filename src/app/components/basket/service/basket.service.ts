@@ -53,13 +53,14 @@ export class BasketService {
       })
     }
     createOrder(order:OrderModel,basket:BasketModel,callBack:(res:ResponseModel<string>)=>void){
-            
+            debugger;
       this._http.post<ResponseModel<string>>("/Order/Create",order,res=>{
           callBack(res);     
           this.getLastOrderByUserId(order.userId,res=>{
              let orderId = res.data.id;
              this.createOrderItems(orderId,basket.basketItems,res=>{
                 callBack(res);
+                debugger;
                 this.deleteBasketId(basket.id,res=>{
                   console.log(res);
                 })

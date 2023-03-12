@@ -11,6 +11,7 @@ import { SwalService } from 'src/app/common/services/swal.service';
 export class NavbarComponent implements OnInit {
 
   isLoginVisible:boolean=true;
+  isProductsVisible:boolean=false;
   navbars: NavbarModel[] = [
     {
       name:"Siparişlerim",
@@ -22,11 +23,7 @@ export class NavbarComponent implements OnInit {
       link:"/mycargo",
       class:""
     },
-    {
-      name:"Ürünler",
-      link:"/productcategory",
-      class:""
-    }
+   
   ]
 
   constructor(
@@ -36,14 +33,23 @@ export class NavbarComponent implements OnInit {
   }
   ngOnInit(): void {
     let user = JSON.parse(localStorage.getItem("user"));
-    
+    console.log(user)
+    debugger;
+    if(user.storeId != "") {
+      this.isProductsVisible = true;
+          this.navbars.push( {
+            name:"Ürünler",
+            link:"/productcategory",
+            class: this.isProductsVisible ? 'visible' : "invisible"
+          })
+    }
     if(user != null){
       this.isLoginVisible = false;
     }
   } 
   
   logout(){
-    this._swal.callSwal("Evet","Bilgi","Çıkış yapmak istiyor musunuz?",()=>{
+    this._swal.callSwal("Evet","Bilgi","Çıkış yapmak istiyor musunuz?","question",()=>{
       localStorage.removeItem("user");
       this.isLoginVisible = true;
     });
