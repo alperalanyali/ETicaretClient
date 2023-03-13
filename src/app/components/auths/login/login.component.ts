@@ -1,11 +1,12 @@
 import { ToastrService, ToastrType } from 'src/app/common/services/toastr.service';
 
-import { AuthService } from './auth/auth.service';
+import { AuthService } from '../services/auth.service';
 import { Component } from '@angular/core';
 import { LoginRequestModel } from 'src/app/common/models/login-request.model';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -40,5 +41,25 @@ constructor(
       }
     })
       // this._router.navigateByUrl("/")
+  }
+
+  sendForgotPassword(form:NgForm){
+    if(form.valid){
+      let userOrEmail = form.controls["emailOrUsernameForgotPassword"].value;
+      let model = {emailOrUsername:userOrEmail}
+      this._authService.sendForgotPassword(model,res=>{
+        this._toastr.toast(ToastrType.Info,res.message,"Bilgilendirme");
+      })
+    }
+  }
+
+  sendConfirmEmail(form:NgForm){
+    if(form.valid){
+      let emailOrUsername = form.controls["emailOrUsernameConfirmEmail"].value;
+      let model = {emailOrUsername:emailOrUsername};
+      this._authService.sendConfirmEmail(model,res=>{
+          this._toastr.toast(ToastrType.Info,res.message);
+      });
+    }
   }
 }

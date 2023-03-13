@@ -4,3 +4,17 @@ body{background: #000}.card{border: none;height: 320px}
 .forms-inputs input:focus{box-shadow: none;outline: none;border: 2px solid #000}
 .btn{height: 50px}
 .success-data{display: none;flex-direction: column}.bxs-badge-check{font-size: 90px}
+
+.password{
+    cursor: pointer;
+}
+
+.password:hover{
+    border: 1px solid;
+    background-color: #ccc;
+}
+
+a:hover{
+    color: blue !important;
+    text-decoration: underline !important;
+}

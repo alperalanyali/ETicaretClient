@@ -1,0 +1,84 @@
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10">
+            <!-- <form #loginForm="ngForm" > -->
+            <div class="card px-5 py-5" id="form1">
+                <div class="form-data" v-if="!submitted">
+
+                    <div class="forms-inputs mb-4 w-100"> <span>Email or username</span>
+                        <input autocomplete="off" type="text" class="w-100" [(ngModel)]="loginRequest.emailOrUsername"
+                            #emailOrUsername required minlength="3" [appValid]="emailOrUsername.validity.valid">
+                        <div class="invalid-feedback">A valid email is required!</div>
+                    </div>
+                    <div class="forms-inputs mb-4"> <span>Password</span>
+                        <input autocomplete="off" class="w-100" [(ngModel)]="loginRequest.password">
+                        <div class="invalid-feedback">Password must be 8 character!</div>
+                    </div>
+                    <div class="mb-3">
+                        <button v-on:click.stop.prevent="submit" class="btn btn-dark w-100 mb-4" (click)="login()">Giriş
+                            Yap
+                        </button>
+                        <a style="color:blue" data-bs-toggle="modal" data-bs-target="#confirmEmailModal">Onay Maili
+                            Gönder</a>
+                        <br>
+                        <a style="color:blue" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Şifrenizi mi
+                            Unuttunuz?</a>
+                        <a style="float:right" routerLink="/register">Üye değil misiniz?</a>
+                    </div>
+                </div>
+            </div>
+            <!-- </form> -->
+        </div>
+
+    </div>
+</div>
+<!-- Send Forgot Password -->
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" data-bs-backdrop="static"
+    aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="forgotPasswordModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form #forgotPassword="ngForm" (ngSubmit)="sendForgotPassword(forgotPassword)">
+                <div class="modal-body">
+                    <label for="emailOrUsernameForgotPassword">Kullanıcı adı veya eposta adresi</label>
+                    <input class="form-control" #emailOrUsernameForgotPassword name="emailOrUsernameForgotPassword" ngModel [appValid]="emailOrUsernameForgotPassword.validity.valid" minlength="3" required>
+                    <div class="invalid-feedback">
+                            Lütfen kullanıcı adınızı veya eposta adresinizi giriniz!!
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary" >Eposta gönder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Send Confirm Email -->
+<div class="modal fade" id="confirmEmailModal" tabindex="-1" data-bs-backdrop="static"
+    aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="forgotPasswordModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form #confirmEmail="ngForm" (ngSubmit)="sendConfirmEmail(confirmEmail)" >
+                <div class="modal-body">
+                    <label for="emailOrUsernameConfirmEmail">Kullanıcı adı veya eposta adresi</label>
+                    <input class="form-control" #emailOrUsernameConfirmEmail name="emailOrUsernameConfirmEmail" ngModel [appValid]="emailOrUsernameConfirmEmail.validity.valid" minlength="3">
+                    <div class="invalid-feedback">
+                            Lütfen kullanıcı adınızı veya eposta adresinizi giriniz!!
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="forgotPassword.valid">Eposta gönder</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
