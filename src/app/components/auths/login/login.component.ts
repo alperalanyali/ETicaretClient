@@ -62,4 +62,11 @@ constructor(
       });
     }
   }
+  showOrHidePassword(password: HTMLInputElement) {
+    if (password.type == "password")
+      password.type = "text"
+    else {
+      password.type = "password"
+    }
+  }
 }

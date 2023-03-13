@@ -1,12 +1,13 @@
 
 <div class="mt-4">
+
   <div class="mx-4">
       <span>Kategoriler</span>
       <div class="list-group list-group-horizontal">
       
-          <button class="btn btn-outline-primary mx-4" *ngFor="let category of categories" (click)="getProductsByCategoryId(category.id)">
+          <a class=" mx-4" *ngFor="let category of categories" (click)="getProductsByCategoryId(category.id)">
                 {{category.name}} 
-          </button>
+          </a>
       </div>
     </div>
     <div class="row mx-2 mt-2">

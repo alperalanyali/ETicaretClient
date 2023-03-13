@@ -33,8 +33,7 @@ export class NavbarComponent implements OnInit {
   }
   ngOnInit(): void {
     let user = JSON.parse(localStorage.getItem("user"));
-    console.log(user)
-    debugger;
+    console.log(user)    
     if(user.storeId != "") {
       this.isProductsVisible = true;
           this.navbars.push( {

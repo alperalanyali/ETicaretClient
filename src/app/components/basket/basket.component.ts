@@ -68,8 +68,10 @@ constructor(
   }
   getAddresses(){
     let user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
     this._basketService.getAddressesByUserId(user.userId, res=>{
       this.addresses = res.data;
+      console.log(this.addresses);
     })
   }
   getPaymentTypes(){
@@ -81,6 +83,7 @@ constructor(
   confirmBasket(){
     let user = JSON.parse(localStorage.getItem("user"));
     this.order.userId = user.userId;  
+    this.order.basketId = this.basket.id;
     this._basketService.createOrder(this.order,this.basket,res=>{
       this._toastr.toast(ToastrType.Success,res.message,"İşlem");
       let orderId:string="";

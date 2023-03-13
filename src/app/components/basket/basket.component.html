@@ -42,9 +42,9 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form #addForm="ngForm"  class="was-validated">
+            <form #addForm="ngForm" >
                 <div class="input-group has-validation mb-4">
-                    <select [(ngModel)]="order.address" name="addressId" class="form-control is-invalid" required>
+                    <select [(ngModel)]="order.address" name="addressId" class="form-control" required>
                         <option>Adresinizi seçiniz</option>
                         <option *ngFor="let address of addresses" value="{{address.id}}">{{address.address1}} {{address.city}}/{{address.country}}</option>
                     </select>
@@ -53,7 +53,7 @@
                       </div>
                 </div>
                 <div  class="input-group has-validation mb-4">
-                    <select [(ngModel)]="order.paymentTypeId" name="paymentTypeId" class="form-control is-invalid" required>
+                    <select [(ngModel)]="order.paymentTypeId" name="paymentTypeId" class="form-control" required>
                         <option>Adresinizi seçiniz</option>
                         <option *ngFor="let paymentType of paymentTypes" value="{{paymentType.id}}">{{paymentType.name}} </option>
                     </select>
@@ -65,10 +65,11 @@
                     <div>
                         <label class="text-muted text-center">Kredi Kartı Bilgiler</label>  
                     </div>
+                    
                         <div class="row">                                
                                 <div class="col-md-4">     
                                     <label class="text-muted ">Son Kullanım Yılı</label>                               
-                                    <select class="form-control mb-2" name="year" [(ngModel)]="creditCardInfo.validYear">
+                                    <select class="form-control mb-2" name="year" [(ngModel)]="order.expireYear">
                                         <option>Lütfen yıl seçiniz</option>
                                         <option>2023</option>
                                         <option>2024</option>
@@ -77,7 +78,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label class="text-muted ">Son Kullanım Ayı </label>
-                                    <select class="form-control" name="validMonth" [(ngModel)]="creditCardInfo.validMonth">
+                                    <select class="form-control" name="validMonth" [(ngModel)]="order.expireMonth">
                                         <option>Ay seçiniz</option>
                                         <option *ngFor="let month of months">{{month}}</option>
                                     </select>
@@ -85,27 +86,36 @@
                                 <div class="col-md-4">
                                 
                                     <label>CVV</label>
-                                    <input placeholder="CVV" name="cvv" [(ngModel)]="creditCardInfo.cvv" class="form-control">                                        
+                                    <input placeholder="CVV" name="cvv" #cvv [(ngModel)]="order.cvv" class="form-control" minlength="3" [appValid]="cvv.validity.valid">                                        
+                                    <div class="invalid-feedback">
+                                            CVV doldurunuz
+                                    </div>
                                 </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
                                 <label class="text-muted">Kredi Sahibinin Adı Soyadı</label>
-                                <input placeholder="Adınız soyadınız giriniz" name="fullName" [(ngModel)]="creditCardInfo.fullName" class="form-control input-upper">
+                                <input placeholder="Adınız soyadınız giriniz" name="fullName" #fullName [(ngModel)]="order.cardHolderName" class="form-control input-upper" [appValid]="fullName.validity.valid" minlength="5">
+                                <div class="invalid-feedback">
+                                    Kredi kartının sahibinin adını soyadını giriniz!!
+                            </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
                                 <label>Kredi Kart Numarası</label>
-                                <input [(ngModel)]="creditCardInfo.carNumber" name="carNumber" placeholder="Kredi Kart Numarası" class="form-control" (keyup)="checkCreditNumber()" maxlength="19">
+                                <input [(ngModel)]="order.cardNumber" name="cardNumber" #cardNumber placeholder="Kredi Kart Numarası" class="form-control"   [appValid]="cardNumber.validity.valid" >
+                                <div class="invalid-feedback">
+                                    Kredi kartı numarasını giriniz!!
+                            </div>
                             </div>
                         </div>
-                      
+                    
                 </div>
                
 
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
                     <button type="button" class="btn btn-outline-primary" (click)="confirmBasket()">Tamamla</button>
                   </div>
             </form>

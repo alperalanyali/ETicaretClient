@@ -1,19 +1,31 @@
-<div class="container mt-5">
+<div class="container mt-5" style="margin-left: 100px;margin-right: 100px;">
     <div class="row d-flex justify-content-center">
         <div class="col-md-10">
             <!-- <form #loginForm="ngForm" > -->
             <div class="card px-5 py-5" id="form1">
                 <div class="form-data" v-if="!submitted">
 
-                    <div class="forms-inputs mb-4 w-100"> <span>Email or username</span>
-                        <input autocomplete="off" type="text" class="w-100" [(ngModel)]="loginRequest.emailOrUsername"
+                    <div class="mb-4"> 
+                        <span class="text-muted">Username or Email</span>
+                        <input class="form-control" autocomplete="off" type="text" [(ngModel)]="loginRequest.emailOrUsername"
                             #emailOrUsername required minlength="3" [appValid]="emailOrUsername.validity.valid">
                         <div class="invalid-feedback">A valid email is required!</div>
                     </div>
-                    <div class="forms-inputs mb-4"> <span>Password</span>
-                        <input autocomplete="off" class="w-100" [(ngModel)]="loginRequest.password">
+                    <div class="mb-4">
+                    <span class="text-muted">Password</span>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" [(ngModel)]="loginRequest.password" #password required minlength="3" [appValid]="password.validity.valid" >
+                        <span class="input-group-text" id="basic-addon2">
+                            <i (click)="showOrHidePassword(password)"
+                            [class]="password.type == 'password' ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                        </span>
+                        <div class="invalid-feedback">
+                            Şifre en az 1 karakter olmalıdır!
+                        </div>
+                      </div>
+                      
                         <div class="invalid-feedback">Password must be 8 character!</div>
-                    </div>
+                    </div>  
                     <div class="mb-3">
                         <button v-on:click.stop.prevent="submit" class="btn btn-dark w-100 mb-4" (click)="login()">Giriş
                             Yap
@@ -76,7 +88,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
-                    <button type="submit" class="btn btn-primary" [disabled]="forgotPassword.valid">Eposta gönder</button>
+                    <button type="sub" class="btn btn-primary" [disabled]="forgotPassword.valid">Eposta gönder</button>
                 </div>
             </form>
         </div>
