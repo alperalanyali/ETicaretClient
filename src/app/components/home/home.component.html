@@ -1,35 +1,57 @@
 
-<div class="mt-4">
-
-  <div class="mx-4">
-      <span>Kategoriler</span>
-      <div class="list-group list-group-horizontal">
+<div class="mt-4 mx-4 row">
+  <aside  class="col-md-2 p-4 rounded aside">
+      <input type="search" class="form-control mt-4" placeholder="Aranacak ürün" [(ngModel)]="search">
+      <span class="text-white font-weight-bold categoryTitle">Kategoriler</span>
+      <div class="list-group mx-4">
       
-          <a class=" mx-4" *ngFor="let category of categories" (click)="getProductsByCategoryId(category.id)">
+          <a class="categorySubTitle" *ngFor="let category of categories" (click)="getProductsByCategoryId(category)">
                 {{category.name}} 
           </a>
       </div>
-    </div>
-    <div class="row mx-2 mt-2">
-            <div class="col-md-3" *ngFor="let productStore of productStores">
-              <div class="card" style="width: 18rem;" >
-                <img src="../../../assets//images/{{productStore.product.imageUrl}}" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">{{productStore.product.name}}</h5>
-                  <p class="card-text">{{productStore.product.description}}</p>
-                  <p class="card-text">{{productStore.product.price}}</p>
-                  <p class="card-text">{{productStore.store.storeName}}</p>
-                  <div style="margin-bottom:10px;
-                  ">
-                    <p class="card-text">Kategoriler:</p>
-                    <span style="background-color: darkgray;padding: 10px;color:white;margin-bottom: 10px;border-radius: 10px;" *ngFor="let productCategory of productStore.product.productCategories">{{productCategory.category.name}}</span>
-                  </div>
-                  <a  class="btn btn-primary" (click)="addBasket(productStore.id,productStore.price)">Sepete Ekle</a>
-                </div>
-              </div>
+  </aside>
 
+  <section class="col-md-10">
+    <div class="row mt-2">
+      <div class="col-md-3"   style="margin-right: 35px;" *ngFor="let productStore of productStores | productStorePipe: search">
+        <div class="card" style="width: 20rem;height:500px" >
+          <img src="../../../assets//images/{{productStore.imageUrl}}" class="card-img-top imageContainer"  alt="...">
+          <div class="card-body">
+            <div class="row">
+                <div class="col-md-10">
+                    <h5 class="card-title"><span class="text-muted">Ürün:</span> {{productStore.name}}</h5>
+                    <p class="card-text"><span class="text-muted">Mağaza:</span> <span>{{productStore.store.storeName}}</span> </p>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary">
+                      <i class="fa fa-info"></i>
+                    </button>
+                </div>
             </div>
+
+
+            <div style="margin-bottom:30px;
+            ">
+              <p class="card-text text-muted">Kategoriler:</p>
+              <span class="info " *ngFor="let productCategory of productStore.productCategories">{{productCategory.category.name}}</span>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                  <p ><span class="text-muted">Fiyatı:</span><span class="price">{{productStore.price}} TL</span></p>
+                </div>                
+                <div class="col-md-5">
+                  <a  class="btn btn-outline-primary" (click)="addBasket(productStore.id,productStore.price)">
+                    <i class="fa fa-basket"></i>
+                    Sepette Ekle</a>
+                </div>
+            </div>
+           
+          </div>
+        </div>
+
       </div>
+</div>
+  </section>
 
     </div>
 

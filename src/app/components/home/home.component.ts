@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
   count$: Observable<number>  
   categories: CategoryModel[]= [];
   productStores: ProductStoreModel[] = [];
+  search:string=""
   constructor(private store: Store<{ count: number }>,
               private _homeService: HomeService,
               private _toastr: ToastrService 
@@ -61,8 +62,8 @@ export class HomeComponent implements OnInit {
       this.categories = res.data;
     });
   }
-  getProductsByCategoryId(categoryId:string){
-    this._homeService.getProductsByCategoryId(categoryId, res=>{      
+  getProductsByCategoryId(category:CategoryModel){
+    this._homeService.getProductsByCategoryId(category, res=>{      
       this.productStores = res.data;
     })
   }

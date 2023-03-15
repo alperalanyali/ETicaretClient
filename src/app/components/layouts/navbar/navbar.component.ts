@@ -12,6 +12,7 @@ export class NavbarComponent implements OnInit {
 
   isLoginVisible:boolean=true;
   isProductsVisible:boolean=false;
+  isAdminVisible:boolean=false;
   navbars: NavbarModel[] = [
     {
       name:"Siparişlerim",
@@ -34,14 +35,38 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     let user = JSON.parse(localStorage.getItem("user"));
     console.log(user)    
-    if(user.storeId != "") {
+    if (user.role.code == "Admin"){
+      this.isProductsVisible = true;
+          this.navbars.push( {
+            name:"Ürünler",
+            link:"/productcategory",
+             class: this.isProductsVisible ? 'visible' : "invisible"
+          });
+          this.navbars.push({
+            name:"Kategoriler",
+            link:"/category",
+             class: this.isProductsVisible ? 'visible' : "invisible"
+          })
+          this.navbars.push({
+            name:"Mağazalar",
+            link:"/store",
+             class: this.isProductsVisible ? 'visible' : "invisible"
+          });
+          this.navbars.push({
+            name:"Kullanıcılar",
+            link:"/user",
+             class: this.isProductsVisible ? 'visible' : "invisible"
+          })
+    }
+    else if(user.role.code == "Store") {
       this.isProductsVisible = true;
           this.navbars.push( {
             name:"Ürünler",
             link:"/productcategory",
             class: this.isProductsVisible ? 'visible' : "invisible"
-          })
+          });
     }
+    
     if(user != null){
       this.isLoginVisible = false;
     }

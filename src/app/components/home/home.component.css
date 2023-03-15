@@ -1,0 +1,41 @@
+.aside{
+    background-color: #7393B3;
+    height:300px;
+}
+
+.categoryTitle{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.categorySubTitle{
+    font-size:20px;
+    text-decoration: none;
+    color:white;
+}
+.categorySubTitle:hover{
+    font-size: 24px;
+}
+
+.imageContainer{
+    height:150px;
+    object-fit:contain;
+    margin-top:25px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.info{
+    padding: 10px;
+    border:1px solid #b7b7b7;
+    color:#b7b7b7;;
+    margin-bottom: 50px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+.price{
+    color:rgb(98, 158, 98);
+    font-size: 20px;
+    font-weight: bold;
+}

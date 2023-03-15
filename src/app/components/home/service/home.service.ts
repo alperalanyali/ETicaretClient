@@ -21,8 +21,8 @@ export class HomeService {
     model: FilterModel,
     callBack: (res: ResponseModel<ProductStoreModel[]>) => void
   ) {
-    this._http.get<ResponseModel<ProductStoreModel[]>>(
-      '/ProductStore/GetAll',
+    this._http.post<ResponseModel<ProductStoreModel[]>>(
+      '/ProductStore/GetAll',model,
       (res) => callBack(res)
     );
   }
@@ -35,11 +35,11 @@ export class HomeService {
     );
   }
   getProductsByCategoryId(
-    categoryId: string,
+    category: CategoryModel,
     callBack: (res: ResponseModel<ProductStoreModel[]>) => void
   ) {
-    let model = { categoryId: categoryId };
-    if (categoryId.toUpperCase() === '0A2E737F-0C81-41ED-BD0C-9A02A8F16F1E') {
+    let model = { categoryId: category.id };
+    if (category.code.toUpperCase() === 'all') {
       this._http.get<ResponseModel<ProductStoreModel[]>>(
         '/ProductStore/GetAll',
         (res) => callBack(res)

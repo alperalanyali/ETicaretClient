@@ -85,6 +85,9 @@ constructor(
     this.order.userId = user.userId;  
     this.order.basketId = this.basket.id;
     this._basketService.createOrder(this.order,this.basket,res=>{
+      if(res.paymentResult.status="false"){
+        this._toastr.toast(ToastrType.Error,res.paymentResult.errorMessage);
+      }
       this._toastr.toast(ToastrType.Success,res.message,"İşlem");
       let orderId:string="";
       this._basketService.getLastOrderByUserId(user.userId,res=>{

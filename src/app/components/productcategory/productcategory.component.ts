@@ -24,8 +24,9 @@ export class ProductcategoryComponent implements OnInit {
   isVisibleProductCategory: boolean = false;
   productStores: ProductStoreModel[] = [];
   file:any ;
-  
+  search:string = "";
   productId:string ="";
+  product:ProductModel = new ProductModel();
   
   isProductBtnClick = true;
   isCategoryBtnClick = false;
@@ -34,7 +35,7 @@ export class ProductcategoryComponent implements OnInit {
   quantityTypes:QuantityTypeModel[] = [];
   productCategories : ProductCategoryModel[] = [];
   
-  selectedProductCategory:ProductStoreModel = new ProductStoreModel();
+  selectedProductStore:ProductStoreModel = new ProductStoreModel();
   selectedCategryId:string ="";
   
   filterModel:FilterModel = new FilterModel();
@@ -45,6 +46,7 @@ export class ProductcategoryComponent implements OnInit {
   ){
     this.filterModel.pageNumber=1 ;
     this.filterModel.pageSize=10;
+    this.selectedProductStore = new ProductStoreModel();
   }
   ngOnInit(): void {
     this.getAll();
@@ -59,6 +61,10 @@ export class ProductcategoryComponent implements OnInit {
     this._productCategoryService.getProductStores(filterModel,res=>{
       this.productStores = res.data;
     })
+  }
+  updateProductCategory(productStore:ProductStoreModel){
+    debugger;
+    this.selectedProductStore = productStore;
   }
   btnProductClicked(){
     this.isCategoryBtnClick = false;
@@ -78,7 +84,13 @@ export class ProductcategoryComponent implements OnInit {
         this.categories = res.data;
     });
   }
-
+  deleteById(productStore:ProductStoreModel){
+    this._swal.callSwal("Sil",productStore.name+ " ürünü silmek istiyor musunuz","","question",()=>{
+      this._productCategoryService.deleteById(productStore.id,res=>{
+        console.log(res);
+      })
+    })
+  }
   toggleProductCategory(){
     this.isVisibleProductCategory = !this.isVisibleProductCategory;
   }
@@ -96,7 +108,7 @@ export class ProductcategoryComponent implements OnInit {
       formData.append("quantityTypeId",quantityTypeId);
       formData.append("price",price);
       formData.append("imageUrl",this.file,this.file.name);
-      formData.append("storeId","51C51ABA-697F-4C8F-931D-08DB20AF4980");
+      formData.append("storeId","083C4780-7EDA-4008-BDB8-7F9A141AD8D8");
       if(!this.isUpdate){
         this._productCategoryService.createProduct(formData,res=>{
           this._toastrService.toast(ToastrType.Success,res.message,"Kayıt");

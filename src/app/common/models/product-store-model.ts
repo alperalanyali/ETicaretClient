@@ -6,7 +6,14 @@ import { StoreModel } from "./store.model";
 
 export class ProductStoreModel{
     id:string;
-    product:ProductModel;
-    store:StoreModel;
+    code:string = "";
+    name:string ="";
+    quantityTypeId:string = "";
+    imageUrl:FormData;
+    imageUrl2:string = "";      
+    quantityType:QuantityTypeModel;
+    description:string ="";
+    productCategories : ProductCategoryModel[] = [];
+    store:StoreModel = new StoreModel();;
     price:Number;   
 }

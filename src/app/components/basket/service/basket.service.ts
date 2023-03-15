@@ -4,9 +4,9 @@ import { BasketModel } from 'src/app/common/models/basket.model';
 import { GenericHttpService } from 'src/app/common/services/generic-http.service';
 import { Injectable } from '@angular/core';
 import { OrderModel } from 'src/app/common/models/order.model';
+import { PaymentResponeModel } from '../models/paymentRespond.model';
 import { PaymentTypeModel } from 'src/app/common/models/payment-type.model';
 import { ResponseModel } from 'src/app/common/models/response.model';
-import { PaymentResponeModel } from '../models/paymentRespond.model';
 
 @Injectable({
   providedIn: 'root'
@@ -53,9 +53,9 @@ export class BasketService {
         callBack(res);
       })
     }
-    createOrder(order:OrderModel,basket:BasketModel,callBack:(res:ResponseModel<PaymentResponeModel>)=>void){
+    createOrder(order:OrderModel,basket:BasketModel,callBack:(res:PaymentResponeModel)=>void){
             debugger;
-      this._http.post<ResponseModel<PaymentResponeModel>>("/Order/Create",order,res=>{
+      this._http.post<PaymentResponeModel>("/Order/Create",order,res=>{
           callBack(res);     
           // this.getLastOrderByUserId(order.userId,res=>{
           //    let orderId = res.data.id;
