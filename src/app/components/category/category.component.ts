@@ -14,7 +14,8 @@ import { SwalService } from 'src/app/common/services/swal.service';
 export class CategoryComponent implements OnInit {
 
   categories: CategoryModel[] = [];
-  
+  selectedCategory:CategoryModel = new CategoryModel();
+  isUpdate:boolean = false;
   constructor(
     private _categoryService: CategoryService,
     private  _toastr :ToastrService,
@@ -30,7 +31,10 @@ export class CategoryComponent implements OnInit {
       this.categories = res.data;
     });
   }
-
+  get(category:CategoryModel){
+    this.selectedCategory = {...category};
+    this.isUpdate = true;
+  }
   createNew(form:NgForm){
     debugger;
     if(form.valid){
@@ -38,16 +42,28 @@ export class CategoryComponent implements OnInit {
       category.name = form.controls['name'].value;
       category.code = form.controls['code'].value;
       category.itemNo = form.controls['itemNo'].value;
-
-      this._categoryService.createCategory(category,res=>{
+      category.id = this.selectedCategory.id;
+      let closeBtn = document.getElementById('closeBtn') as HTMLElement
+      if(this.isUpdate){
+          this._categoryService.updateCategory(category,res=>{
+            this._toastr.toast(ToastrType.Success,res.message);
+            closeBtn.click();
+            this.getAll();
+          })
+      }else {
+        this._categoryService.createCategory(category,res=>{
           this._toastr.toast(ToastrType.Success,res.message);
           let closeBtn = document.getElementById('closeBtn') as HTMLElement
           closeBtn.click();
           this.getAll();
       }) 
+      }
+     
     }
   }
-
+  clear(){
+    this.selectedCategory= new CategoryModel();
+  }
   delete(category:CategoryModel){
       this._swal.callSwal("Sil","Silme İşlemi",category.name+" kategorisini silmek istiyor musunuz?","question",()=>{
         this._categoryService.deleteCategory(category,res=>{

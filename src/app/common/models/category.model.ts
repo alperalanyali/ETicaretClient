@@ -3,4 +3,5 @@ export class CategoryModel{
     code:string;
     itemNo:string;
     name:string;
+    isActive:boolean = true;
 }

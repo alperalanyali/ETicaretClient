@@ -23,4 +23,9 @@ export class StoreService {
   update(model:StoreModel,callBack:(res:ResponseModel<string> )=>void){
     this._http.post<ResponseModel<string>>('/Store/Update',model, res => callBack(res));
   }
+
+  delete(id:string,callBack:(res:ResponseModel<string>)=> void){
+    let model:{id:string}={id:id};
+    this._http.post<ResponseModel<string>>('/Store/Delete',model,res=>callBack(res));
+  }  
 }

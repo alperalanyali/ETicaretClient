@@ -38,10 +38,12 @@ export class HomeService {
     category: CategoryModel,
     callBack: (res: ResponseModel<ProductStoreModel[]>) => void
   ) {
+    let filterModel:FilterModel = new FilterModel()
+    console.log(category)    
     let model = { categoryId: category.id };
-    if (category.code.toUpperCase() === 'all') {
-      this._http.get<ResponseModel<ProductStoreModel[]>>(
-        '/ProductStore/GetAll',
+    if (category.code.toLocaleLowerCase() === 'all') {
+      this._http.post<ResponseModel<ProductStoreModel[]>>(
+        '/ProductStore/GetAll',filterModel,
         (res) => callBack(res)
       );
     } else {

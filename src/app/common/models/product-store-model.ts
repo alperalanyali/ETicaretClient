@@ -15,5 +15,6 @@ export class ProductStoreModel{
     description:string ="";
     productCategories : ProductCategoryModel[] = [];
     store:StoreModel = new StoreModel();;
-    price:Number;   
+    price:Number;  
+    inStock:Number; 
 }

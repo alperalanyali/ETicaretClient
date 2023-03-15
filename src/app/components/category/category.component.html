@@ -18,7 +18,7 @@
             <td>{{category.code}}</td>
             <td>{{category.name}}</td>
             <td>
-                <button class="btn btn-outline-warning btn-sm mx-4">
+                <button class="btn btn-outline-warning btn-sm mx-4" data-bs-toggle="modal" data-bs-target="#categoryModal" (click)="get(category)">
                     <i class="fa fa-edit "></i>
                 </button>
                 <button class="btn btn-outline-danger btn-sm" (click)="delete(category)">
@@ -37,34 +37,34 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Kategori Ekle/Güncelleme</h1>
-                <button type="button" class="btn-close" id="closeBtn" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" id="closeBtn" data-bs-dismiss="modal" aria-label="Close" (click)="clear()"></button>
             </div>
             <form #addCategory="ngForm" (ngSubmit)="createNew(addCategory)">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="itemNo">Öncelik</label>
-                        <input type="text" class="form-control" ngModel #itemNo name="itemNo" [appValid]="itemNo.validity.valid">
+                        <input type="text" class="form-control" [(ngModel)]="selectedCategory.itemNo" #itemNo name="itemNo" [appValid]="itemNo.validity.valid">
                         <div class="invalid-feedback">
                             Lütfen öncelik belirtiniz!
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="code">Kodu</label>
-                        <input type="text" class="form-control" ngModel #code name="code" [appValid]="code.validity.valid">
+                        <input type="text" class="form-control" [(ngModel)]="selectedCategory.code" #code name="code" [appValid]="code.validity.valid">
                         <div class="invalid-feedback">
                             Lütfen kodunu giriniz!
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="name">Adı</label>
-                        <input type="text" class="form-control" ngModel #name  name="name" [appValid]="name.validity.valid">
+                        <input type="text" class="form-control" [(ngModel)]="selectedCategory.name" #name  name="name" [appValid]="name.validity.valid">
                         <div class="invalid-feedback">
                             Lütfen kodunu giriniz!
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" (click)="clear()">İptal</button>
                     <button type="submit" class="btn btn-primary">Kaydet</button>
                 </div>
             </form>

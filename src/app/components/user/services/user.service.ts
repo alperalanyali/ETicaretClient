@@ -17,4 +17,7 @@ export class UserService {
   getAll(model:FilterModel,callBack:(res:ResponseModel<UserModel[]>)=>void){
     this._http.post<ResponseModel<UserModel[]>>("/User/GetAllUser",model,res=>callBack(res));
   }
+  sendForgotPassword(model:any,callBack:(res:ResponseModel<string>)=>void) {
+    this._http.post<ResponseModel<string>>("/Auth/ForgotPasswordEmail",model,res=>callBack(res));
+  }
 }

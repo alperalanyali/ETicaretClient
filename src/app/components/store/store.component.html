@@ -19,10 +19,10 @@
             <td>{{store.storeName}}</td>
             <td>{{store.address}}</td>
             <td>
-                <button class="btn btn-outline-warning btn-sm mx-4">
+                <button class="btn btn-outline-warning btn-sm mx-4"  data-bs-toggle="modal" data-bs-target="#storeModal" (click)="get(store)">
                         <i class="fa fa-edit"></i>
                 </button>
-                <button class="btn btn-outline-danger btn-sm">
+                <button class="btn btn-outline-danger btn-sm" (click)="delete(store)">
                     <i class="fa fa-trash"></i>
             </button>
             </td>
@@ -36,26 +36,26 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="staticBackdropLabel">Mağaza Ekle/Güncelle</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clear()"></button>
         </div>
        <form #addStore="ngForm" (ngSubmit)="createStore(addStore)">
         <div class="modal-body">
             <div class="form-group">
                 <label for="storeName" class="text-muted">Adı</label>
-                <input type="text" class="form-control" #storeName [(ngModel)]="store.storeName" [appValid]="storeName.validity.valid" required  minlength="3" >
+                <input type="text" class="form-control" #storeNam name="storeName"  #storeName [(ngModel)]="store.storeName" [appValid]="storeName.validity.valid" required  minlength="3" >
                 <div class="invalid-feedback    ">
                     Lütfen mağaza adını giriniz!!
                 </div>
             </div>
             <div class="form-group">
                 <label for="storeName" class="text-muted">Adresi</label>
-                <input type="text" class="form-control" #address [(ngModel)]="store.address"  >
+                <input type="text" class="form-control" #address name="address" [(ngModel)]="store.address"  >
             </div>
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Understood</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="clear()">Close</button>
+          <button type="button" class="btn btn-primary">Kaydet</button>
         </div>
     </form> 
       </div>

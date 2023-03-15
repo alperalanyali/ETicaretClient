@@ -28,10 +28,10 @@
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let orderItem of order.orderItems">
-                                        <td>{{orderItem.productStore.product.name}}</td>
+                                        <td>{{orderItem.productStore.name}}</td>
                                         <td>{{orderItem.quantity}}</td>
-                                        <td>{{orderItem.productStore.product.quantityType.name}}</td>
-                                        <td>{{orderItem.productStore.product.price}}</td>
+                                        <td>{{orderItem.productStore.quantityType.name}}</td>
+                                        <td>{{orderItem.productStore.price}}</td>
                                         <td>{{orderItem.totalPrice}}</td>
                                     </tr>
                                 </tbody>

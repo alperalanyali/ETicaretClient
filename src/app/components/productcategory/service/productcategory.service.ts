@@ -36,11 +36,15 @@ export class ProductcategoryService {
   }
   createProduct(model:any,callBack:(res:ResponseModel<string>)=> void){
  
-    this._httpService.post<ResponseModel<string>>("/Product/create",model,res =>{
+    this._httpService.post<ResponseModel<string>>("/ProductStore/create",model,res =>{
       callBack(res)      
     } );
   }
-
+  updateProduct(model:any,callBack:(res:ResponseModel<string>)=> void){
+    this._httpService.post<ResponseModel<string>>("/ProductStore/Update",model,res=>{
+        callBack(res);
+    })
+  }
   createProductCategory(model:any,callBack:(res:ResponseModel<string>)=> void){
     this._httpService.post<ResponseModel<string>>("/ProductCategory/Create",model,res => callBack(res));  
   }
@@ -53,4 +57,6 @@ export class ProductcategoryService {
       let model:{id:string}={id:productStoreId};
       this._httpService.post<ResponseModel<string>>("/ProductStore/Delete",model,res=>callBack(res));
   }
+
+  
 }

@@ -15,6 +15,7 @@
         <th>Ürün Kodu</th>
         <th>Ürün Adı</th>
         <th>Ürün Açıklaması</th>
+        <th>Eldeki Stok(Adet)</th>
         <th>Ürün Fiyatı</th>
         <th>Ürün Foto</th>
         <th>Kategorileri</th>
@@ -28,13 +29,14 @@
         <td>{{productStore.code}}</td>
         <td>{{productStore.name}}</td>
         <td>{{productStore.description}}</td>
+        <td>{{productStore.inStock}}</td>
         <td>{{productStore.price}}</td>
         <td><img src="../../../assets/images/{{productStore.imageUrl}}" style="width:100px"></td>
         <td>
           <span *ngFor="let category of productStore.productCategories">{{category.category.name}}</span>
         </td>
         <td>
-          <button class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#orderModal" (click)="updateProductCategory(productStore)">
+          <button class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#orderModal" (click)="get(productStore)">
             <i class="fa fa-edit"></i>
           </button>
           <button class="btn btn-outline-danger btn-sm mx-1" (click)="deleteById(productStore)">
@@ -54,7 +56,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Ürün Ekleme</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clear()"></button>
       </div>
       <div class="modal-body">
         <ul class="nav nav-tabs mb-4">
@@ -67,37 +69,43 @@
         </ul>
         <div>
         <form  *ngIf="isProductBtnClick" #addForm="ngForm" (ngSubmit)="createProduct(addForm)" class="was-invalidated">
-          <div clas="from-group mb-4">
+          <div clas="form-group mb-4">
             <label class="text-muted">Kodu</label>
-            <input type="text" ngModel  class="form-control" name="code">
+            <input type="text" [(ngModel)]="selectedProductStore.code"  class="form-control" name="code">
           </div>
-          <div clas="from-group mb-4">
+          <div clas="form-group mb-4">
             <label class="text-muted">Adı</label>
-            <input type="text" class="form-control" ngModel name="name">
+            <input type="text" class="form-control" [(ngModel)]="selectedProductStore.name" name="name">
           </div>
-          <div clas="from-group mb-4">
+          <div clas="form-group mb-4">
             <label class="text-muted">Açıklaması</label>
-            <input type="text" class="form-control" ngModel name="description">
+            <input type="text" class="form-control" [(ngModel)]="selectedProductStore.description" name="description">
           </div>
-          <div clas="from-group mb-4">
+          <div clas="form-group mb-4">
             <label class="text-muted">Fiyatı</label>
-            <input type="text" class="form-control" ngModel name="price">
+            <input type="text" class="form-control" [(ngModel)]="selectedProductStore.price" name="price">
           </div>
-          <div clas="from-group mb-6">
+          <div clas="form-group mb-6">
             <label class="text-muted">Birimi</label>
-            <select class="form-control" ngModel name="quantityTypeId">
+            <select class="form-control" [(ngModel)]="selectedProductStore.quantityTypeId" name="quantityTypeId">
               <option>Seçiniz</option>
               <option *ngFor="let quantityType of quantityTypes" value="{{quantityType.id
                     }}"> {{quantityType.name}}</option>
             </select>
           </div>
-          <div clas="from-group mb-4">
+          <div class="form-group mb-6">
+            <label class="text-muted"> Stok</label>
+            <input type="number" class="form-control" name="inStock" [(ngModel)]="selectedProductStore.inStock">
+
+
+          </div>
+          <div clas="form-group mb-4">
             <label label class="text-muted">Fotoğrafı</label>
-            <input type="file" class="form-control" (change)="handleFileInput($event)" ngModel name="imageUrl">
+            <input type="file" class="form-control" (change)="handleFileInput($event)" [(ngModel)] ="selectedProductStore.imageUrl" name="imageUrl">
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
-            <button type="submit" class="btn btn-outline-primary">Ürünü Kaydet</button>
+            <button type="submit" class="btn btn-outline-primary" (click)="createProduct(addForm)">Ürünü Kaydet</button>
           </div>
         </form>
 
@@ -123,77 +131,22 @@
   </div>
 </div>
 
-<!-- Product Store -->
-<div class="modal fade" id="orderModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+<!-- Product Store Update -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Ürün Ekleme</h5>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <ul class="nav nav-tabs mb-4">
-          <li class="nav-item">
-            <a class="nav-link"  (click)="btnProductClicked()">Ürün Kayıtı</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" (click)="btnCategoryClicked()">Ürüne Kategoris Ekleme</a>
-          </li>
-        </ul>
-        <div>
-        <form  *ngIf="isProductBtnClick" #addForm="ngForm" (ngSubmit)="createProduct(addForm)" class="was-invalidated">
-          <div clas="from-group mb-4">
-            <label class="text-muted">Kodu</label>
-            <input type="text" [(ngModel)]="selectedProductStore.code"  class="form-control" name="code">
-          </div>
-          <div clas="from-group mb-4">
-            <label class="text-muted">Adı</label>
-            <input type="text" class="form-control" ngModel name="name">
-          </div>
-          <div clas="from-group mb-4">
-            <label class="text-muted">Açıklaması</label>
-            <input type="text" class="form-control" ngModel name="description">
-          </div>
-          <div clas="from-group mb-4">
-            <label class="text-muted">Fiyatı</label>
-            <input type="text" class="form-control" ngModel name="price">
-          </div>
-          <div clas="from-group mb-6">
-            <label class="text-muted">Birimi</label>
-            <select class="form-control" ngModel name="quantityTypeId">
-              <option>Seçiniz</option>
-              <option *ngFor="let quantityType of quantityTypes" value="{{quantityType.id
-                    }}"> {{quantityType.name}}</option>
-            </select>
-          </div>
-          <div clas="from-group mb-4">
-            <label label class="text-muted">Fotoğrafı</label>
-            <input type="file" class="form-control" (change)="handleFileInput($event)" ngModel name="imageUrl">
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
-            <button type="submit" class="btn btn-outline-primary">Ürünü Kaydet</button>
-          </div>
-        </form>
-
-        <form  *ngIf="isCategoryBtnClick" #addCategoryForm="ngForm" class="was-invalidated">
-
-          <div clas="from-group mb-6">
-            <label class="text-muted">Ürün Birimi</label>
-            <select class="form-control" ngModel name="categoryId">
-              <option>Seçiniz</option>
-              <option *ngFor="let category of categories" value="{{category.id
-                    }}" > {{category.name}}</option>
-            </select>
-            <button (click)="createProductCategory(addCategoryForm)">Ekle</button>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
-            <button type="button" class="btn btn-outline-primary">Tamamla</button>
-          </div>
-        </form>
+        ...
       </div>
-
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
     </div>
   </div>
 </div>
