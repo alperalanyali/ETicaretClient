@@ -5,6 +5,7 @@
                         <th>#</th>
                         <th>Ödeme Tipi</th>
                         <th>Adres</th>
+                        <th>Sipariş Durumu</th>
                         <th>Sip. Oluş. Tarihi</th>
                         <th>Sipariş Kalemleri</th>
                     </tr>
@@ -14,6 +15,7 @@
                         <td>{{index + 1}}</td>
                         <td>{{order.paymentType.name}}</td>
                         <td>{{order.address.address1}} {{order.address.city}}/{{order.address.country}}</td>
+                        <td>{{order.status}}</td>
                         <td>{{order.createdDate | date:"dd.MM.yyyy HH:mm"}}</td>
                         <td>
                             <table class="table table-striped">

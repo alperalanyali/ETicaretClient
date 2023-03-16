@@ -76,6 +76,7 @@ export class NavbarComponent implements OnInit {
     this._swal.callSwal("Evet","Bilgi","Çıkış yapmak istiyor musunuz?","question",()=>{
       localStorage.removeItem("user");
       this.isLoginVisible = true;
+      window.location.reload();
     });
   }
 }

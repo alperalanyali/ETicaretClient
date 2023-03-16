@@ -1,6 +1,7 @@
 import { AddressModel } from "./address.model";
 import { BasketItemModel } from "./basketItem.model";
 import { OrderItemModel } from "./order-item.model";
+import { OrderStatus } from "src/app/components/orders/models/orderstatus.enum";
 import { PaymentTypeModel } from "./payment-type.model";
 
 export class OrderModel{
@@ -20,4 +21,5 @@ export class OrderModel{
     expireYear:string ="";
 
     basketId:string ="";
+    status:OrderStatus = 1;
 }

@@ -11,6 +11,7 @@ import { ProductCategoryModel } from 'src/app/common/models/product-category.mod
 import { ProductModel } from 'src/app/common/models/product.model';
 import { ProductStoreModel } from 'src/app/common/models/product-store-model';
 import { Store } from '@ngrx/store';
+import { Toast } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +30,7 @@ export class HomeComponent implements OnInit {
     ) {
       this.count$ = store.select('count');
       store.select("count").subscribe( res => {
-        console.log(res);
+        
       })
   }
   ngOnInit(): void {
@@ -68,8 +69,15 @@ export class HomeComponent implements OnInit {
     })
   }
   addBasket(productStoreId:string,price:Number){
-    console.log(productStoreId);    
-    let userId = JSON.parse(localStorage.getItem("user")).userId;
+    // console.log(productStoreId);    
+    let user = JSON.parse(localStorage.getItem("user"));
+    let userId;
+    if(user == null) {
+      this._toastr.toast(ToastrType.Error,"Ürün eklemek için giriş yapınız","Hata")
+    }else {
+      userId = user.userId
+    }
+    console.log(user);
      this._homeService.checkBasket(userId,productStoreId,price,res =>{
         this._toastr.toast(ToastrType.Success,res.message,"İşlem");
      })
