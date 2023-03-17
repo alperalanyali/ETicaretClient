@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Toastr2Service, ToastrPosition } from 'src/app/common/services/toastr2.service';
 import { ToastrService, ToastrType } from 'src/app/common/services/toastr.service';
 
 import { AuthService } from '../services/auth.service';
@@ -20,7 +21,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     
     private _authService :AuthService,
-    private _toastr: ToastrService,
+    private _toastr: Toastr2Service,
     private _router: Router
   ){
     
@@ -28,17 +29,23 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.getRoles();
   }
-  
-  register(){
+  showOrHidePassword(password: HTMLInputElement) {
+    if (password.type == "password")
+      password.type = "text"
+    else {
+      password.type = "password"
+    }
+  }
+  register(form:NgForm){
     this._authService.register(this.registerModel,res=>{
       if(res.isSuccess){
-        this._toastr.toast(ToastrType.Success,res.message,"İşlem")
-        let loginRequestModel:LoginRequestModel = new LoginRequestModel();
-        loginRequestModel.emailOrUsername = this.registerModel.email;
-        loginRequestModel.password = this.registerModel.password;
-        this._authService.login(loginRequestModel,res=>{
-          this._router.navigateByUrl("/");   
-        })  
+        this._toastr.toast(ToastrType.Success,res.message,"İşlem",ToastrPosition.BottomCenter);
+        let emailOrUsername = form.controls["email"].value;
+        let model = {emailOrUsername:emailOrUsername};
+        this._authService.sendConfirmEmail(model,res=>{
+          this._router.navigateByUrl('/login');
+            this._toastr.toast(ToastrType.Info,res.message,"Başarılı",ToastrPosition.BottomCenter);
+        });         
       }
       
     })

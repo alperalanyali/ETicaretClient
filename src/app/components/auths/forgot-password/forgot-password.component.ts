@@ -1,8 +1,10 @@
+import { ActivatedRoute, Router } from '@angular/router';
+import { Toastr2Service, ToastrPosition } from 'src/app/common/services/toastr2.service';
+import { ToastrService, ToastrType } from 'src/app/common/services/toastr.service';
+
+import { AuthService } from '../services/auth.service';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService, ToastrType } from 'src/app/common/services/toastr.service';
-import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -18,7 +20,7 @@ constructor(
   private _authService: AuthService,
   private _activated: ActivatedRoute,
   private _router: Router,
-  private _toastr: ToastrService
+  private _toastr: Toastr2Service
 
 ){
   this._activated.params.subscribe(res =>{    
@@ -48,7 +50,7 @@ refeshPassword(form: NgForm) {
     debugger;
     let model = {id: this.id, password: form.controls["password"].value};
      this._authService.refreshPassword(model,res=>{
-      this._toastr.toast(ToastrType.Success,res.message,"Başarılı"); 
+      this._toastr.toast(ToastrType.Success,res.message,"Başarılı",ToastrPosition.TopLeft); 
      });
   }
 }

@@ -1,3 +1,5 @@
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+
 import { AppComponent } from './app.component';
 import { BasketComponent } from './components/basket/basket.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,6 +17,7 @@ import { NgModule } from '@angular/core';
 import { OrdersComponent } from './components/orders/orders.component';
 import { ProductStorePipe } from './components/home/pipe/productstore.pipe';
 import {ProductcategoryComponent} from './components/productcategory/productcategory.component';
+import { ProductcategoryPipe } from './components/productcategory/pipe/productcategory.pipe';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/auths/register/register.component';
 import {RouterModule} from '@angular/router';
@@ -23,7 +26,6 @@ import { StoreModule } from '@ngrx/store';
 import { UserComponent } from './components/user/user.component';
 import { ValidDirective } from './common/directive/valid.directive';
 import { counterReducer } from './counter.reducer';
-import { ProductcategoryPipe } from './components/productcategory/pipe/productcategory.pipe';
 
 @NgModule({
   declarations: [
@@ -37,15 +39,15 @@ import { ProductcategoryPipe } from './components/productcategory/pipe/productca
     MycargoComponent,
     BasketComponent,
     ProductcategoryComponent,
-     ProfileComponent,
-     ValidDirective,
-     ForgotPasswordComponent,
-     MailConfirmComponent,
-     ProductStorePipe,
-     CategoryComponent,
-     StoreComponent,
-     UserComponent,
-     ProductcategoryPipe,
+    ProfileComponent,    
+    ValidDirective,
+    ForgotPasswordComponent,
+    MailConfirmComponent,
+    ProductStorePipe,
+    CategoryComponent,
+    StoreComponent,
+    UserComponent,
+    ProductcategoryPipe,
      
      
   ],
@@ -53,6 +55,7 @@ import { ProductcategoryPipe } from './components/productcategory/pipe/productca
     BrowserModule,
     HttpClientModule,
     FormsModule,  
+    ToastrModule.forRoot(),
     StoreModule.forRoot({ count: counterReducer }),
     RouterModule.forRoot([
       {

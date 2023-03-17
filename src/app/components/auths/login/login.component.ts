@@ -1,12 +1,13 @@
+import { Toastr2Service, ToastrPosition } from 'src/app/common/services/toastr2.service';
 import { ToastrService, ToastrType } from 'src/app/common/services/toastr.service';
 
 import { AuthService } from '../services/auth.service';
 import { Component } from '@angular/core';
 import { LoginRequestModel } from 'src/app/common/models/login-request.model';
+import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ constructor(
       private _router: Router,
       private store:Store<{auth:boolean}>,
       private _authService:AuthService,
-      private _toastr:ToastrService
+      private _toastr:Toastr2Service
   ){
   this.auth$ = store.select('auth');
 }
@@ -31,13 +32,13 @@ constructor(
     console.log(this.loginRequest);
     this._authService.login(this.loginRequest,res=>{
       if(res.isSuccess){        
-        this._toastr.toast(ToastrType.Success,res.message,"Başarılı");
+        this._toastr.toast(ToastrType.Success,"Hoşgeldiniz","Başarılı",ToastrPosition.BottomRight);
         this._router.navigateByUrl("/");        
         const userJson = JSON.stringify(res); 
   
         localStorage.setItem("user",userJson);
       }else {
-        this._toastr.toast(ToastrType.Error,res.message,"Giriş İşlemi")
+        this._toastr.toast(ToastrType.Error,res.message,"Giriş İşlemi",ToastrPosition.BottomLeft)
       }
     })
       // this._router.navigateByUrl("/")
@@ -58,7 +59,7 @@ constructor(
       let emailOrUsername = form.controls["emailOrUsernameConfirmEmail"].value;
       let model = {emailOrUsername:emailOrUsername};
       this._authService.sendConfirmEmail(model,res=>{
-          this._toastr.toast(ToastrType.Info,res.message);
+          this._toastr.toast(ToastrType.Info,"toast-bottom-right",res.message);
       });
     }
   }

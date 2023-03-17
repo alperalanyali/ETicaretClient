@@ -1,6 +1,7 @@
 import { GenericHttpService } from 'src/app/common/services/generic-http.service';
 import { Injectable } from '@angular/core';
 import { OrderModel } from 'src/app/common/models/order.model';
+import { OrderStatus } from '../models/orderstatus.enum';
 import { ResponseModel } from 'src/app/common/models/response.model';
 
 @Injectable({
@@ -17,7 +18,7 @@ export class OrderService {
     let user = JSON.parse(localStorage.getItem("user"));
     let model:{userId:string} = {userId:user.userId};
 
-    this._http.post<ResponseModel<OrderModel[]>>("/Order/GetOrdersByUserId",model,res=>{
+    this._http.post<ResponseModel<OrderModel[]>>("/Order/GetOrdersByUserId",model,res=>{      
       callBack(res);
     })
   }

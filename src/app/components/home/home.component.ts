@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Toastr2Service, ToastrPosition } from 'src/app/common/services/toastr2.service';
 import { ToastrService, ToastrType } from 'src/app/common/services/toastr.service';
 import { decrement, increment, reset } from 'src/app/counter.actions';
 
@@ -25,7 +26,8 @@ export class HomeComponent implements OnInit {
   search:string=""
   constructor(private store: Store<{ count: number }>,
               private _homeService: HomeService,
-              private _toastr: ToastrService 
+              private _toastr: ToastrService,
+              private _toastr2Service: Toastr2Service,
                            
     ) {
       this.count$ = store.select('count');
@@ -79,7 +81,8 @@ export class HomeComponent implements OnInit {
     }
     console.log(user);
      this._homeService.checkBasket(userId,productStoreId,price,res =>{
-        this._toastr.toast(ToastrType.Success,res.message,"İşlem");
+        // this._toastr.toast(ToastrType.Success,res.message,"İşlem");
+        this._toastr2Service.toast(ToastrType.Success,res.message,"Başarılı",ToastrPosition.BottomRight );
      })
   }
 }

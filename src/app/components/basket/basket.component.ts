@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Toastr2Service, ToastrPosition } from 'src/app/common/services/toastr2.service';
 import { ToastrService, ToastrType } from 'src/app/common/services/toastr.service';
 
 import { AddressModel } from 'src/app/common/models/address.model';
@@ -25,7 +26,7 @@ export class BasketComponent  implements OnInit {
   months:number[] = []
 constructor(
   private _basketService: BasketService,
-  private  _toastr: ToastrService,
+  private  _toastr: Toastr2Service,
   private _swal: SwalService
   ){
   for (let index = 1; index <= 12; index++) {
@@ -53,7 +54,7 @@ constructor(
     basketItem.quantity = event.target.value;
     basketItem.totalPrice = basketItem.quantity * +basketItem.productStore.price;
     this._basketService.updateBasketItem(basketItem,res=>{
-        this._toastr.toast(ToastrType.Info,res.message);
+        this._toastr.toast(ToastrType.Info,res.message,"Güncelleme",ToastrPosition.BottomLeft);
 
         this.getBasket();
     })

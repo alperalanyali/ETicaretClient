@@ -1,7 +1,7 @@
 <div>
 
   <div class="row mt-4 mx-2">
-    <div class="col-lg-8">
+    <div class="col-lg-4">
       <div class="card mb-4">
         <div class="card-body text-center">
           <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
@@ -13,57 +13,37 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-4"> 
+    <div class="col-lg-8"> 
       <div class="card mb-4 p-10">
+          <div class="row">
+              <div class="col-lg-8">
+                <p class="text-muted mt-4 mx-4">Addreslerim</p>                
+              </div>
+              <div class="col-lg-4">
+                <button class="btn btn-outline-primary  mt-4 mx-4" style="float: right;">
+                  <i class="fa fa-plus"></i>
+                  Adres
+              </button>
+              </div>
+          </div>
           <div class="mt-4 p-4">
-            <div class="row ">
-                  <div class="col-8">
-                    <h5 class="text-muted mb-1" >Adreslerim</h5>
-                  </div>
-                  <div class="col-4">
-                    <button class="btn btn-outline-primary float-right" data-bs-toggle="modal" data-bs-target="#addressModal">Yeni Adres</button>
-                  </div>
-            </div>
-            <div class=" card mb-4 m-4 p-4" *ngFor="let address of addresses">
-                  <div class="row mb-4">
-                        <div class="col-6">
-                              <label class="text-muted">Ülke: </label>
-                              <span  class="fw-bold"> {{address.country}}</span>
-                        </div>
-                        <div class="col-6">
-                          <label class="text-muted">Şehir: </label>
-                          <span  class="fw-bold"> {{address.city}}</span>
-                    </div>
-                  </div>
-                  <div class="row mb-4">
-                    <div class="col-6">
-                          <label class="text-muted">Address 1: </label>
-                          <span  class="fw-bold"> {{address.address1}}</span>
-                    </div>
-                    <div class="col-6">
-                      <label class="text-muted">Address 2: </label>
-                      <span  class="fw-bold"> {{address.address2}}</span>
-                    </div>
-                  </div>
-                  <div class="row mb-4">
-                    <div class="col-6">
-                          <label class="text-muted">Posta Kodu: </label>
-                          <span  class="fw-bold"> {{address.zipCode}}</span>
-                    </div>
-                    
-                </div>   
-                <div class="row mb-4">
-                      <div class="col-6 ">
-                        <button class="btn btn-outline-warning">
-                          <i class="fa fa-edit"></i>
-                        </button>
-                      </div>
-                      <div class="col-6">
-                        <button class="btn btn-outline-danger">
-                          <i class="fa fa-trash"></i>
-                        </button>
-                      </div>
-                </div>           
+            <div class="row " *ngFor="let address of addresses" >
+               <div class="col-lg-4">
+
+                  <label class="text-muted">Şehir: <strong class="text-dark">{{address.city}}</strong> </label>          
+                
+               </div>
+               <div class="col-lg-4">
+                    <label>Ülke:{{address.country}}</label>
+               </div>
+               <div class="col-lg-4">
+                    <button class="btn btn-outline-warning">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button class="btn btn-outline-danger mx-4">
+                      <i class="fa fa-trash"></i>
+                    </button>
+               </div>
             </div>
           </div>
       </div>
@@ -82,7 +62,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close"></button>
       </div>
       <div class="modal-body">
-             <form #addForm="ngForm">
+             <!-- <form #addForm="ngForm">
                     <div class="mb-3">
                        <label class="form-label">Ülke</label>
                        <input type="text" name="country" [(ngModel)]="newAddress.country" #country class="form-control w-100" placeholder="Ülkenizi yazınız">
@@ -108,7 +88,7 @@
                     <button type="button" class="btn btn-outline-primary" (click)="addNewAddress()" >Kaydet</button>
                   </div>
               
-             </form>
+             </form> -->
       </div>
     
     </div>

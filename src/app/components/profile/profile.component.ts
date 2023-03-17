@@ -4,12 +4,13 @@ import { ToastrService, ToastrType } from 'src/app/common/services/toastr.servic
 import { AddressModel } from 'src/app/common/models/address.model';
 import { NgForm } from '@angular/forms';
 import { ProfileService } from './service/profile.service';
+import { Toastr2Service } from 'src/app/common/services/toastr2.service';
 import { UserModel } from 'src/app/common/models/user.model';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit  {
 
@@ -18,7 +19,8 @@ export class ProfileComponent implements OnInit  {
   newAddress:AddressModel = new AddressModel();
   constructor(
     private _profileService: ProfileService,
-    private _toastr : ToastrService
+    private _toastr : ToastrService,
+    private _totastr2:Toastr2Service,
   ){
     
   }
