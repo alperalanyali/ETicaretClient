@@ -5,8 +5,8 @@
                 <th>Ürün Adı</th>
                 <th>Fotoğraf</th>
                 <th>Miktar</th>
-                <th>Birimi</th>
-                <th>Tutarı</th>
+                <th>Birimi Tipi</th>
+                <th>Birim Tutarı</th>
                 <th>Toplam Tutarı</th>
                 <th>İşlemler</th>
             </tr>
@@ -15,7 +15,12 @@
             <tr *ngFor="let basketItem of basket.basketItems let index = index">
                 <td>{{basketItem.productStore.name}}</td>
                 <td><img [src]="'../../../assets//images//'+basketItem.productStore.imageUrl" style="width:100px"></td>
-                <td><input type="number" [value]="basketItem.quantity" id="quantity" class="form-control text-center" (change)="updateBasketItem($event,index)"></td>
+                <!-- <td><input type="number" [value]="basketItem.quantity" id="quantity" class="form-control text-center" (change)="updateBasketItem($event,index)"></td> -->
+                <td class="text-center">
+                    <i class="fa fa-minus" (click)="updateBasketItem(basketItem,'minus')"></i>
+                    {{basketItem.quantity}}
+                    <i class="fa fa-plus"  (click)="updateBasketItem(basketItem,'plus')"></i>
+                </td>
                 <td>{{basketItem.productStore.quantityType.name}}</td>
                 <td>{{basketItem.productStore.price}}</td>
                 <td>{{basketItem.totalPrice}}</td>

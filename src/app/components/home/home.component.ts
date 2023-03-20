@@ -3,6 +3,7 @@ import { Toastr2Service, ToastrPosition } from 'src/app/common/services/toastr2.
 import { ToastrService, ToastrType } from 'src/app/common/services/toastr.service';
 import { decrement, increment, reset } from 'src/app/counter.actions';
 
+import { BasketService } from '../basket/service/basket.service';
 import { CategoryModel } from 'src/app/common/models/category.model';
 import { FilterModel } from 'src/app/common/models/filter.model';
 import { HomeService } from './service/home.service';
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit {
   search:string=""
   constructor(private store: Store<{ count: number }>,
               private _homeService: HomeService,
+              private _basketService: BasketService,
               private _toastr: ToastrService,
               private _toastr2Service: Toastr2Service,
                            
@@ -83,6 +85,7 @@ export class HomeComponent implements OnInit {
      this._homeService.checkBasket(userId,productStoreId,price,res =>{
         // this._toastr.toast(ToastrType.Success,res.message,"İşlem");
         this._toastr2Service.toast(ToastrType.Success,res.message,"Başarılı",ToastrPosition.BottomRight );
+        this._basketService.basketCount += 1;
      })
   }
 }

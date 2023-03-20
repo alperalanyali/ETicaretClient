@@ -9,7 +9,7 @@
           <h5 class="my-3">{{user.fullName}}</h5>
           <p class="text-muted mb-1">{{user.userName}}</p>
           <p class="text-muted mb-4">{{user.email}}</p>
-
+          <p class="text-muted mb-4">{{user.role.title}}</p>
         </div>
       </div>
     </div>
@@ -17,7 +17,7 @@
       <div class="card mb-4 p-10">
           <div class="row">
               <div class="col-lg-8">
-                <p class="text-muted mt-4 mx-4">Addreslerim</p>                
+                <p class="text-muted mt-4 mx-4">Adreslerim</p>                
               </div>
               <div class="col-lg-4">
                 <button class="btn btn-outline-primary  mt-4 mx-4" style="float: right;">
@@ -31,10 +31,15 @@
                <div class="col-lg-4">
 
                   <label class="text-muted">Şehir: <strong class="text-dark">{{address.city}}</strong> </label>          
-                
+                  <br/>
+                  <br/>
+                  <label class="text-muted">Address 1: <strong class="text-dark">{{address.address1}}</strong> </label>   
                </div>
                <div class="col-lg-4">
-                    <label>Ülke:{{address.country}}</label>
+                    <label>Ülke:<strong>{{address.country}}</strong></label>
+                    <br/>
+                    <br/>
+                    <label class="text-muted">Address 2: <strong class="text-dark">{{address.address1}}</strong> </label>   
                </div>
                <div class="col-lg-4">
                     <button class="btn btn-outline-warning">
@@ -51,6 +56,49 @@
   </div>
   <div class="row mt-4 mx-2">
       <label class="text-muted">Önceki Siparişlerim</label>
+      <table class="table bordered">
+          <thead>
+            <tr>
+              <th> # </th>
+              <th>Tarihi</th>
+              <th>Ödeme Tipi</th>
+              <th>Adres</th>
+              <th>Sipariş Detayı</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orders let index = index">
+              <td>{{index + 1}}</td>
+              <td>{{order.createdDate | date:"dd.MM.yyyy HH:mm"}}</td>
+              <td>{{order.paymentType.name}}</td>
+              <td>{{order.address.address1}} {{order.address.city}}/{{order.address.country}}</td>
+              <td>{{order.status}}</td>
+         
+              <td>
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th>Ürün Adı</th>
+                              <th>Miktarı</th>
+                              <th>Birimi</th>
+                              <th>Tutarı</th>
+                              <th>Toplam Tutarı</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let orderItem of order.orderItems">
+                              <td>{{orderItem.productStore.name}}</td>
+                              <td>{{orderItem.quantity}}</td>
+                              <td>{{orderItem.productStore.quantityType.name}}</td>
+                              <td>{{orderItem.productStore.price}}</td>
+                              <td>{{orderItem.totalPrice}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </td>
+          </tr>
+          </tbody>
+      </table>
   </div>
 </div>
 

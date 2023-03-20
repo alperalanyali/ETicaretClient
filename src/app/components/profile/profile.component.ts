@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Toastr2Service, ToastrPosition } from 'src/app/common/services/toastr2.service';
 import { ToastrService, ToastrType } from 'src/app/common/services/toastr.service';
 
 import { AddressModel } from 'src/app/common/models/address.model';
 import { NgForm } from '@angular/forms';
+import { OrderModel } from 'src/app/common/models/order.model';
+import { OrderService } from '../orders/service/order.service';
 import { ProfileService } from './service/profile.service';
-import { Toastr2Service } from 'src/app/common/services/toastr2.service';
 import { UserModel } from 'src/app/common/models/user.model';
 
 @Component({
@@ -17,16 +19,19 @@ export class ProfileComponent implements OnInit  {
   user:UserModel = new UserModel();
   addresses:AddressModel[] = [];
   newAddress:AddressModel = new AddressModel();
+  orders:OrderModel[] = [];
+  
   constructor(
-    private _profileService: ProfileService,
-    private _toastr : ToastrService,
+    private _profileService: ProfileService,    
     private _totastr2:Toastr2Service,
+    private _orderService:OrderService
   ){
     
   }
   ngOnInit(): void {
     this.getUserById();
     this.getAddressesByUserId();
+    this.getOrders();
   }
 
   getUserById(){
@@ -47,7 +52,15 @@ export class ProfileComponent implements OnInit  {
     console.log(this.newAddress);
     this._profileService.addNewAddress(this.newAddress,res=>{
       console.log(res);
-      this._toastr.toast(ToastrType.Info,res.message,"İşlem");
+      this._totastr2.toast(ToastrType.Info,res.message,"İşlem",ToastrPosition.BottomRight);
     })
+  }
+
+  getOrders(){
+    let user = JSON.parse(localStorage.getItem("user"));  
+    this._orderService.getOrdersByUserId(res=>{
+        this.orders=res.data;
+        console.log(this.orders);
+    });
   }
 }

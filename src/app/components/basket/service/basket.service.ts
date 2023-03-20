@@ -18,6 +18,7 @@ export class BasketService {
     ) { }
 
     basket :BasketModel = new BasketModel();
+    basketCount:number = 0;
     order: OrderModel = new OrderModel();
     getLastBasketIdByUserId(userId:string,callBack:(res:ResponseModel<BasketModel>)=> void){
     
@@ -88,5 +89,11 @@ export class BasketService {
       this._http.post<ResponseModel<string>>("/OrderItem/CreateOrderItemsWithBasketItems",model,res=>{            
             callBack(res);
       })
+    }
+    getBasketCountByUserId(userId:string,callBack:(res:ResponseModel<number>)=> void){
+      this._http.post<ResponseModel<number>>("/Basket/GetBasketCountByUserId",{userId:userId},res =>{
+        callBack(res);
+        this.basketCount = res.data;
+      });
     }
 }

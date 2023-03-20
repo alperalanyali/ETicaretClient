@@ -49,20 +49,40 @@ constructor(
     });
   
   }
-  updateBasketItem(event:any,index:number){
-    let basketItem = this.basket.basketItems[index];
-    basketItem.quantity = event.target.value;
-    basketItem.totalPrice = basketItem.quantity * +basketItem.productStore.price;
-    this._basketService.updateBasketItem(basketItem,res=>{
-        this._toastr.toast(ToastrType.Info,res.message,"Güncelleme",ToastrPosition.BottomLeft);
-
-        this.getBasket();
-    })
+  updateBasketItem(basketItem:BasketItemModel,type:string){
+    if(type=="plus"){
+      basketItem.quantity += 1;
+      basketItem.totalPrice = basketItem.quantity * +basketItem.productStore.price;
+      this._basketService.updateBasketItem(basketItem,res=>{
+          this._toastr.toast(ToastrType.Info,res.message,"Güncelleme",ToastrPosition.BottomRight);          
+          this.getBasket();
+      })
+    }else {
+      if(basketItem.quantity == 1){
+        this._swal.callSwal("Evet","Sepetten silenecek?","Emin misiniz?","question",()=>{
+          this._basketService.deleteBasketItem(basketItem.id,res=>{
+            this._toastr.toast(ToastrType.Warning,res.message,"Kayıt",ToastrPosition.BottomRight);
+            this.getBasket();
+          })
+        })
+      }else {
+        basketItem.quantity -=1;
+        basketItem.totalPrice = basketItem.quantity * +basketItem.productStore.price;
+        this._basketService.updateBasketItem(basketItem,res=>{
+            this._toastr.toast(ToastrType.Info,res.message,"Güncelleme",ToastrPosition.BottomRight);
+    
+            this.getBasket();
+        })
+      }
+      
+    }
+  
   }
   deleteBasketItem(id:string){
       this._swal.callSwal("Evet","Silme İşlemi","Ürünü sepetten silmek istiyor musunuz?","question",()=>{
         this._basketService.deleteBasketItem(id,res=>{
           this._toastr.toast(ToastrType.Info,res.message,"İşlem");
+          this._basketService.basketCount -= 1;
           this.getBasket();
         })
       })

@@ -14,10 +14,15 @@
       </ul>
       <div class="d-flex">
         <div class="nav-item mx-2">
-          <a  class="nav-link" routerLink="/basket">
-            <i class="fa  fa-basket-shopping"></i>
-            Sepetim
+          <a  class="nav-link position-relative" routerLink="/basket">
+            <i class="fa  fa-basket-shopping" style="font-size: 30px;"></i>
+            <span class="position-absolute top-100 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">
+              {{_basketService.basketCount}}
+            </span>
+            
+       
           </a>
+       
       </div>
         <div class="nav-item mx-2">
           <a class="nav-link" routerLink="/profile"> 

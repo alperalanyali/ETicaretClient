@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import { BasketService } from '../../basket/service/basket.service';
 import { NavbarModel } from 'src/app/common/models/navbar.model';
 import { SwalService } from 'src/app/common/services/swal.service';
 
@@ -13,6 +14,7 @@ export class NavbarComponent implements OnInit {
   isLoginVisible:boolean=true;
   isProductsVisible:boolean=false;
   isAdminVisible:boolean=false;
+  
   navbars: NavbarModel[] = [
     {
       name:"Siparişlerim",
@@ -28,13 +30,22 @@ export class NavbarComponent implements OnInit {
   ]
 
   constructor(
-    private _swal: SwalService
+    private _swal: SwalService,
+    public _basketService: BasketService
   ){
     
   }
   ngOnInit(): void {
-    let user = JSON.parse(localStorage.getItem("user"));
-    console.log(user)    
+    let userLocal = localStorage.getItem("user")
+    let user
+    if(userLocal){
+     user = JSON.parse(userLocal);
+    this._basketService.getBasketCountByUserId(user.userId,res => {
+      console.log(res);
+    })
+    }
+      
+    
     if (user.role.code == "Admin"){
       this.isProductsVisible = true;
           this.navbars.push( {
@@ -70,6 +81,7 @@ export class NavbarComponent implements OnInit {
     if(user != null){
       this.isLoginVisible = false;
     }
+    
   } 
   
   logout(){
