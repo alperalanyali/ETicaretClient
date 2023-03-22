@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
 import { GenericHttpService } from 'src/app/common/services/generic-http.service';
+import { Injectable } from '@angular/core';
+import { LoginRequestModel } from 'src/app/common/models/login-request.model';
+import { LoginResponseModel } from 'src/app/common/models/login-response.model';
 import { RegisterModel } from 'src/app/common/models/register.model';
 import { ResponseModel } from 'src/app/common/models/response.model';
 import { RoleModel } from 'src/app/common/models/role.model';
-import { LoginRequestModel } from 'src/app/common/models/login-request.model';
-import { LoginResponseModel } from 'src/app/common/models/login-response.model';
-
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +24,7 @@ export class AuthService {
     })
   }
   register(registerModel:RegisterModel,callBack:(res:ResponseModel<string>)=>void) {
+    registerModel.storeId = '51C51ABA-697F-4C8F-931D-08DB20AF4981';
     this._httpService.post<ResponseModel<string>>("/Auth/CreateUser",registerModel,res=>callBack(res));
   }
   getRoles(callBack:(res:ResponseModel<RoleModel[]>)=>void) {

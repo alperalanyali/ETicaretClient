@@ -21,11 +21,7 @@ export class NavbarComponent implements OnInit {
       link:"/orders",
       class:""
     },
-    {
-      name:"Kargom Nerede",
-      link:"/mycargo",
-      class:""
-    },
+
    
   ]
 

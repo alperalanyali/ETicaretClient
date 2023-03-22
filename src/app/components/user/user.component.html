@@ -16,7 +16,7 @@
                 <td>{{user.userName}}</td>
                 <td>{{user.email}}</td>
                 <td>{{user.fullName}}</td>
-                <td>{{user.role.title}}</td>
+                <td>{{user.role.title}}</td>                
                 <td>
                     <button type="button"
                             class="btn btn-outline-primary btn-sm"
@@ -27,6 +27,9 @@
                     >
                         <i class="fa fa-arrows-rotate"></i>
                     </button>
+                    <button class="btn btn-outline-secondary btn-sm mx-4" *ngIf="user.role.code == 'Store'" (click)="getUser(user)"  data-bs-toggle="modal" data-bs-target="#storeModal">
+                        Mağaza Atama
+                    </button>
 
                 </td>
             </tr>
@@ -34,3 +37,27 @@
     
     </table>
 </div>
+
+<div class="modal fade" id="storeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Mağaza Atama</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form #addStore="ngForm" (ngSubmit)="updateUser(addStore)">
+        <div class="modal-body">
+            <select class="form-control" ngModel name="store">
+                    <option>Lütfen mağaza seçiniz</option>
+                    <option *ngFor="let store of stores" value="{{store.id}}">{{store.storeName}}</option>
+            </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
+          <button type="submit" class="btn btn-primary">Mağazı Ata</button>
+        </div>
+        </form>
+      </div>
+
+    </div>
+  </div>

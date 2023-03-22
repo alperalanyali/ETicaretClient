@@ -20,7 +20,7 @@
                 <p class="text-muted mt-4 mx-4">Adreslerim</p>                
               </div>
               <div class="col-lg-4">
-                <button class="btn btn-outline-primary  mt-4 mx-4" style="float: right;">
+                <button class="btn btn-outline-primary  mt-4 mx-4" style="float: right;" data-bs-toggle="modal" data-bs-target="#addressModal">
                   <i class="fa fa-plus"></i>
                   Adres
               </button>
@@ -43,9 +43,9 @@
                </div>
                <div class="col-lg-4">
                     <button class="btn btn-outline-warning">
-                      <i class="fa fa-edit"></i>
+                      <i class="fa fa-edit"  data-bs-toggle="modal" data-bs-target="#addressModal" (click)="get(address)"></i>
                     </button>
-                    <button class="btn btn-outline-danger mx-4">
+                    <button class="btn btn-outline-danger mx-4" (click)="deleteById(address)">
                       <i class="fa fa-trash"></i>
                     </button>
                </div>
@@ -54,7 +54,7 @@
       </div>
     </div>
   </div>
-  <div class="row mt-4 mx-2">
+  <div class="row mt-4 mx-2" *ngIf="orders.length >0">
       <label class="text-muted">Önceki Siparişlerim</label>
       <table class="table bordered">
           <thead>
@@ -107,10 +107,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Yeni Adres</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close" (click)="clear()"></button>
       </div>
       <div class="modal-body">
-             <!-- <form #addForm="ngForm">
+             <form #addForm="ngForm">
                     <div class="mb-3">
                        <label class="form-label">Ülke</label>
                        <input type="text" name="country" [(ngModel)]="newAddress.country" #country class="form-control w-100" placeholder="Ülkenizi yazınız">
@@ -132,11 +132,11 @@
                     <input type="text" [(ngModel)]="newAddress.zipCode" name="zipCode" #zipCode class="form-control w-100" placeholder="Ülkenizi yazınız">
                  </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger"  data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-outline-danger" id="closeBtn" data-bs-dismiss="modal" (click)="clear()">İptal</button>
                     <button type="button" class="btn btn-outline-primary" (click)="addNewAddress()" >Kaydet</button>
                   </div>
               
-             </form> -->
+             </form>
       </div>
     
     </div>

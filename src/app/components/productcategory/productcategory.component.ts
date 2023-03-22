@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Toastr2Service, ToastrPosition } from 'src/app/common/services/toastr2.service';
 import {
   ToastrService,
   ToastrType,
@@ -12,10 +13,9 @@ import { ProductModel } from 'src/app/common/models/product.model';
 import { ProductStoreModel } from 'src/app/common/models/product-store-model';
 import { ProductcategoryService } from './service/productcategory.service';
 import { QuantityTypeModel } from 'src/app/common/models/quantityType.model';
-import { RequestProduct } from 'src/app/common/models/product.request';
+import { StoreModel } from 'src/app/common/models/store.model';
 import { SwalService } from 'src/app/common/services/swal.service';
-import { Toast } from 'ngx-toastr';
-import { filter } from 'rxjs';
+import { UserModel } from 'src/app/common/models/user.model';
 
 @Component({
   selector: 'app-productcategory',
@@ -23,6 +23,7 @@ import { filter } from 'rxjs';
   styleUrls: ['./productcategory.component.css'],
 })
 export class ProductcategoryComponent implements OnInit {
+  user:UserModel = new UserModel();
   isUpdate: boolean = false;
   isVisibleProductCategory: boolean = false;
   productStores: ProductStoreModel[] = [];
@@ -30,7 +31,7 @@ export class ProductcategoryComponent implements OnInit {
   search: string = '';
   productId: string = '';
   product: ProductModel = new ProductModel();
-
+  stores:StoreModel[]=[];
   isProductBtnClick = true;
   isCategoryBtnClick = false;
 
@@ -45,6 +46,7 @@ export class ProductcategoryComponent implements OnInit {
   constructor(
     private _productCategoryService: ProductcategoryService,
     private _toastrService: ToastrService,
+    private _toastr2 : Toastr2Service,
     private _swal: SwalService
   ) {
     this.filterModel.pageNumber = 1;
@@ -54,7 +56,12 @@ export class ProductcategoryComponent implements OnInit {
   ngOnInit(): void {
     this.getAll();
     this.getQuantityType();
-    this.getCategories();
+    this.getCategories();    
+    this.getStores();
+    if(localStorage.getItem('user') != null){
+      this.user = JSON.parse(localStorage.getItem('user'));      
+    }
+    console.log(this.user);
   }
   getAll() {
     let filterModel: FilterModel = new FilterModel();
@@ -91,6 +98,12 @@ export class ProductcategoryComponent implements OnInit {
       this.categories = res.data;
     });
   }
+
+  getStores(){
+    this._productCategoryService.getStores(res=>{
+        this.stores = res.data;
+    });
+  }
   deleteById(productStore: ProductStoreModel) {
     this._swal.callSwal(
       'Sil',
@@ -100,6 +113,8 @@ export class ProductcategoryComponent implements OnInit {
       () => {
         this._productCategoryService.deleteById(productStore.id, (res) => {
           console.log(res);
+          this._toastr2.toast(ToastrType.Warning,res.message,"",ToastrPosition.BottomRight);
+          this.getAll();
         });
       }
     );
@@ -114,8 +129,11 @@ export class ProductcategoryComponent implements OnInit {
     let quantityTypeId = form.controls['quantityTypeId'].value;
     let price = form.controls['price'].value;
     let inStock = form.controls['inStock'].value;
-    let user = JSON.parse(localStorage.getItem('user'));
-    let storeId = user.storeId;
+    let storeId = this.user.storeId;
+    if(this.user.role.code == 'Admin'){
+      storeId = form.controls['storeId'].value;
+    }
+     
     let formData = new FormData();
     formData.append('code', code);
     formData.append('name', name);
@@ -148,6 +166,7 @@ export class ProductcategoryComponent implements OnInit {
   }
 
   createProductCategory(form: NgForm) {
+    debugger;
     let categoryId = form.controls['categoryId'].value;
     let model: { productId: string; categoryId: string } = {
       productId: this.productId,
@@ -160,11 +179,19 @@ export class ProductcategoryComponent implements OnInit {
   }
 
   getProductCategoryByProductId(productId: string) {
+    debugger;
     this._productCategoryService.getProductCategoryByProductId(
       productId,
       (res) => {
         this.productCategories = res.data;
+        console.log(this.productCategories);
       }
     );
+  }
+
+  getBack(){
+    let closeBtn = document.getElementById('closeBtn');
+    closeBtn.click();
+    this.getAll();
   }
 }

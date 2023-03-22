@@ -50,11 +50,21 @@ constructor(
   
   }
   updateBasketItem(basketItem:BasketItemModel,type:string){
+    let localStore = localStorage.getItem('userStore');
+    let user:any;
+    if(localStore){
+      user = JSON.parse(localStore);
+    }
+    
     if(type=="plus"){
       basketItem.quantity += 1;
       basketItem.totalPrice = basketItem.quantity * +basketItem.productStore.price;
       this._basketService.updateBasketItem(basketItem,res=>{
-          this._toastr.toast(ToastrType.Info,res.message,"Güncelleme",ToastrPosition.BottomRight);          
+          this._toastr.toast(ToastrType.Info,res.message,"Güncelleme",ToastrPosition.BottomRight);
+          this._basketService.getBasketCountByUserId(user.userId,res=>{
+            this._basketService.basketCount += 1;  
+            
+          })          
           this.getBasket();
       })
     }else {
@@ -74,7 +84,7 @@ constructor(
             this.getBasket();
         })
       }
-      
+      this._basketService.basketCount -= 1;  
     }
   
   }

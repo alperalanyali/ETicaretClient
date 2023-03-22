@@ -12,6 +12,7 @@
    
        
       </ul>
+      
       <div class="d-flex">
         <div class="nav-item mx-2">
           <a  class="nav-link position-relative" routerLink="/basket">
@@ -24,7 +25,7 @@
           </a>
        
       </div>
-        <div class="nav-item mx-2">
+        <div class="nav-item mx-2" *ngIf="!isLoginVisible">
           <a class="nav-link" routerLink="/profile"> 
             <i class="fa-solid fa-user"></i>
           </a>

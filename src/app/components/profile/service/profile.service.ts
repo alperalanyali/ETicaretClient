@@ -33,9 +33,13 @@ export class ProfileService  {
 
   addNewAddress(model:AddressModel,callBack:(res:ResponseModel<string>)=> void){
       
-    this._http.post<ResponseModel<string>>("Address/Create",model,res=>{
+    this._http.post<ResponseModel<string>>("/Address/CreateAddress",model,res=>{
       console.log(res);
       callBack(res);
     })
+  }
+  deleteAddress(model:AddressModel,callBack:(res:ResponseModel<string>)=> void){
+    let model2 = {id:model.id}
+    this._http.post<ResponseModel<string>>("/Address/Delete",model2,res=>{callBack(res)});
   }
 }

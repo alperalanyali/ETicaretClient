@@ -9,6 +9,7 @@ import { QuantityTypeModel } from 'src/app/common/models/quantityType.model';
 import { RequestProduct } from 'src/app/common/models/product.request';
 import { RequestProductCategory } from '../models/request-product-category';
 import { ResponseModel } from 'src/app/common/models/response.model';
+import { StoreModel } from 'src/app/common/models/store.model';
 
 @Injectable({
   providedIn: 'root'
@@ -58,5 +59,8 @@ export class ProductcategoryService {
       this._httpService.post<ResponseModel<string>>("/ProductStore/Delete",model,res=>callBack(res));
   }
 
+  getStores(callBack:(res:ResponseModel<StoreModel[]>)=> void){
+    this._httpService.get<ResponseModel<StoreModel[]>>('/Store/GetAll',res=> callBack(res))
+  }
   
 }

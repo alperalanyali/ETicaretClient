@@ -5,4 +5,5 @@ export class AddressModel{
     address1:string="";
     address2:string="";
     zipCode:string="";
+    userId:string="";
 }

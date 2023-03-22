@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import { OrderModel } from 'src/app/common/models/order.model';
 import { OrderService } from '../orders/service/order.service';
 import { ProfileService } from './service/profile.service';
+import { SwalService } from 'src/app/common/services/swal.service';
 import { UserModel } from 'src/app/common/models/user.model';
 
 @Component({
@@ -24,7 +25,8 @@ export class ProfileComponent implements OnInit  {
   constructor(
     private _profileService: ProfileService,    
     private _totastr2:Toastr2Service,
-    private _orderService:OrderService
+    private _orderService:OrderService,
+    private _swal :SwalService
   ){
     
   }
@@ -33,7 +35,9 @@ export class ProfileComponent implements OnInit  {
     this.getAddressesByUserId();
     this.getOrders();
   }
-
+  get(address:AddressModel){
+    this.newAddress = address;
+  }
   getUserById(){
     let user = JSON.parse(localStorage.getItem("user"));
     this._profileService.getUserById(user.userId,res=>{      
@@ -50,9 +54,13 @@ export class ProfileComponent implements OnInit  {
 
   addNewAddress(){
     console.log(this.newAddress);
+    let user = JSON.parse(localStorage.getItem("user"));    
+    this.newAddress.userId = user.userId;
     this._profileService.addNewAddress(this.newAddress,res=>{
       console.log(res);
       this._totastr2.toast(ToastrType.Info,res.message,"İşlem",ToastrPosition.BottomRight);
+      let closeBtn = document.getElementById("closeBtn") as HTMLButtonElement;
+      closeBtn.click();
     })
   }
 
@@ -62,5 +70,16 @@ export class ProfileComponent implements OnInit  {
         this.orders=res.data;
         console.log(this.orders);
     });
+  }
+  deleteById(address:AddressModel){
+    this._swal.callSwal("Adresi Sil","Adresi silmek istiyor musunuz?","Emin misiniz?","question",()=>{
+      this._profileService.deleteAddress(address,res=>{
+        this._totastr2.toast(ToastrType.Warning,"Kayıt  başarıyla silindi","İşlem",ToastrPosition.BottomRight);
+        this.getAddressesByUserId();
+      })
+    })
+  }
+  clear(){
+    this.newAddress = new AddressModel();
   }
 }
