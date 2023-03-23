@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 
 import { BasketItemModel } from 'src/app/common/models/basketItem.model';
 import { BasketModel } from 'src/app/common/models/basket.model';
+import { BasketService } from '../../basket/service/basket.service';
 import { CategoryModel } from 'src/app/common/models/category.model';
 import { FilterModel } from 'src/app/common/models/filter.model';
 import { GenericHttpService } from 'src/app/common/services/generic-http.service';
@@ -13,7 +14,10 @@ import { ResponseModel } from 'src/app/common/models/response.model';
   providedIn: 'root',
 })
 export class HomeService {
-  constructor(private _http: GenericHttpService) {}
+  constructor(
+            private _http: GenericHttpService,
+            private _basketService: BasketService
+    ) {}
 
   basket: BasketModel = new BasketModel();
 
@@ -69,7 +73,7 @@ export class HomeService {
 
     this.getLastBasketIdByUserId(userId, (res1) => {
       console.log(res1);
-    
+      debugger;
       this.basket = res1.data;
       if (this.basket == null) {
         this._http.post<ResponseModel<string>>(
@@ -92,6 +96,7 @@ export class HomeService {
           model.totalPrice = model.quantity * +price;
           this.addBasket(model, (res) => {
             callBack(res);
+            this._basketService.basketCount += 1;
           });
         } else {
           console.log(productInsideBasket);

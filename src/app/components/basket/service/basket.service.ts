@@ -96,4 +96,8 @@ export class BasketService {
         this.basketCount = res.data;
       });
     }
+
+    getTotalPrice(){
+        
+    }
 }

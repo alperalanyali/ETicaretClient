@@ -57,21 +57,26 @@ constructor(
     }
     
     if(type=="plus"){
+      debugger;
       basketItem.quantity += 1;
       basketItem.totalPrice = basketItem.quantity * +basketItem.productStore.price;
       this._basketService.updateBasketItem(basketItem,res=>{
           this._toastr.toast(ToastrType.Info,res.message,"Güncelleme",ToastrPosition.BottomRight);
+          this.getBasket();  
           this._basketService.getBasketCountByUserId(user.userId,res=>{
-            this._basketService.basketCount += 1;  
-            
+            this._basketService.basketCount += 1;                      
           })          
-          this.getBasket();
+         
       })
     }else {
+      debugger;
       if(basketItem.quantity == 1){
         this._swal.callSwal("Evet","Sepetten silenecek?","Emin misiniz?","question",()=>{
           this._basketService.deleteBasketItem(basketItem.id,res=>{
             this._toastr.toast(ToastrType.Warning,res.message,"Kayıt",ToastrPosition.BottomRight);
+           if(this._basketService.basketCount >0 ){
+            this._basketService.basketCount -= 1;   
+           }
             this.getBasket();
           })
         })
@@ -84,7 +89,10 @@ constructor(
             this.getBasket();
         })
       }
-      this._basketService.basketCount -= 1;  
+      // if(this._basketService.basketCount < 0){
+      //   this._basketService.basketCount -= 1;    
+      // }
+      
     }
   
   }

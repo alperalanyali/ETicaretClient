@@ -12,7 +12,7 @@
 
   <section class="col-md-10">
     <div class="row mt-2">
-      <div class="col-md-3" style="margin-right: 35px;"
+      <div class="col-md-3" style="margin-right: 50px;"
         *ngFor="let productStore of productStores | productStorePipe: search">
         <div class="card" style="width: 20rem;height:300px">
           <img src="../../../assets//images/{{productStore.imageUrl}}" class="card-img-top imageContainer" alt="...">
@@ -77,7 +77,7 @@
                       {{productCategory.category.name }}
                   </p>
                 </div>
-            </div>
+            </div>       
             <div class="row">
               <div class="col-lg-4">
                 <button class="btn btn-outline-danger btn-sm">

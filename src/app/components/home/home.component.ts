@@ -86,7 +86,7 @@ export class HomeComponent implements OnInit {
      this._homeService.checkBasket(userId,productStoreId,price,res =>{
         // this._toastr.toast(ToastrType.Success,res.message,"İşlem");
         this._toastr2Service.toast(ToastrType.Success,res.message,"Başarılı",ToastrPosition.BottomRight );
-        this._basketService.basketCount += 1;
+       
      })
   }
 

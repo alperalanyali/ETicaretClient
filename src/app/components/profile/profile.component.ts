@@ -61,6 +61,7 @@ export class ProfileComponent implements OnInit  {
       this._totastr2.toast(ToastrType.Info,res.message,"İşlem",ToastrPosition.BottomRight);
       let closeBtn = document.getElementById("closeBtn") as HTMLButtonElement;
       closeBtn.click();
+      this.getAddressesByUserId();
     })
   }
 
