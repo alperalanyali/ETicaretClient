@@ -37,7 +37,21 @@
         <td>{{productStore.price}}</td>
         <td><img src="../../../assets/images/{{productStore.imageUrl}}" style="width:100px"></td>
         <td>
-          <span *ngFor="let category of productStore.productCategories">{{category.category.name}}</span>
+          <ul style="list-style: none;">
+            <li class="p-2 mb-2" style="border:1px solid lightgray;border-radius: 20px;padding: 40px;" *ngFor="let productCategory of productCategories">
+              <div class="row">
+                  <div class="col-md-8">
+                    {{productCategory.category.name}}                    
+                  </div>
+                  <div class="col-md-4">
+                    <button class="btn btn-danger btn-sm" style="font-size: 10px;" (click)="deleteByProductCategoryById(productCategory)">
+                      <i class="fa fa-trash"></i>
+                    </button>       
+                  </div>
+              </div>
+
+            </li>
+          </ul>
         </td>
         <td>
           <button class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#orderModal" (click)="get(productStore)">
@@ -117,7 +131,7 @@
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-outline-danger" data-bs-dismiss="modal">İptal</button>
-            <button type="submit" class="btn btn-outline-primary" (click)="createProduct(addForm)">Ürünü Kaydet</button>
+            <button type="submit" class="btn btn-outline-primary">Ürünü Kaydet</button>
           </div>
         </form>
 
@@ -132,14 +146,18 @@
             </select>        
        
             <button (click)="createProductCategory(addCategoryForm)" class="btn btn-outline-primary mt-4" >Ekle</button>
-            <div>
-              <span class="badge text-bg-light" *ngFor="let productCategory of productCategories">{{productCategory.category.name}}</span>
-
+            <div style="margin-top:50px">
+              <span class="p-2 mx-2" style="border:1px solid lightgray;border-radius: 20px;padding: 40px;" *ngFor="let productCategory of productCategories">
+                {{productCategory.category.name}}
+                <button class="btn btn-danger btn-sm" style="font-size: 10px;" (click)="deleteByProductCategoryById(productCategory)">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </span>
             </div>
           </div>
        
           <div class="modal-footer">
-            <button type="submit" class="btn btn-outline-danger" id="closeBgtn" data-bs-dismiss="modal">İptal</button>
+            <button type="submit" class="btn btn-outline-danger" id="closeBtn" data-bs-dismiss="modal">İptal</button>
             <button type="button" class="btn btn-outline-primary"(click)="getBack()">Tamamla</button>
           </div>
         </form>

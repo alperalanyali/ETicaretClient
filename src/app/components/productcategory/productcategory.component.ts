@@ -75,6 +75,7 @@ export class ProductcategoryComponent implements OnInit {
   get(productStore: ProductStoreModel) {
     this.selectedProductStore = { ...productStore };
     this.isUpdate = true;
+    this.getProductCategoryByProductId(this.selectedProductStore.id);
   }
 
   clear() {
@@ -112,6 +113,7 @@ export class ProductcategoryComponent implements OnInit {
       'question',
       () => {
         this._productCategoryService.deleteById(productStore.id, (res) => {
+          debugger;
           console.log(res);
           this._toastr2.toast(ToastrType.Warning,res.message,"",ToastrPosition.BottomRight);
           this.getAll();
@@ -145,7 +147,7 @@ export class ProductcategoryComponent implements OnInit {
     formData.append('imageUrl', this.file, this.file.name);
     
     formData.append('storeId', storeId);
-
+    debugger;
     if (!this.isUpdate) {
       this._productCategoryService.createProduct(formData, (res) => {
         this._toastrService.toast(ToastrType.Success, res.message, 'Kayıt');
@@ -160,13 +162,23 @@ export class ProductcategoryComponent implements OnInit {
         this._toastrService.toast(ToastrType.Info, res.message, 'Güncelleme');
       });
     }
+    form.reset();
   }
   handleFileInput(event: any) {
     this.file = event.target.files[0];
   }
 
-  createProductCategory(form: NgForm) {
+  deleteByProductCategoryById(productcategory:ProductCategoryModel){
     debugger;
+    // this._swal.callSwal("Sil","Kayıt Silme İşlemi",productcategory.product.name + ' üründen bu kategori silmek istiyor musunuz?',"question",()=>{
+      this._productCategoryService.deleteProductCategoryById(productcategory.id,res=>{
+        this._toastr2.toast(ToastrType.Warning,res.message,'İşlem',ToastrPosition.BottomRight);
+        this.getProductCategoryByProductId(productcategory.product.id);
+      });
+    // });
+  }
+  createProductCategory(form: NgForm) {
+    
     let categoryId = form.controls['categoryId'].value;
     let model: { productId: string; categoryId: string } = {
       productId: this.productId,
@@ -178,8 +190,7 @@ export class ProductcategoryComponent implements OnInit {
     });
   }
 
-  getProductCategoryByProductId(productId: string) {
-    debugger;
+  getProductCategoryByProductId(productId: string) {    
     this._productCategoryService.getProductCategoryByProductId(
       productId,
       (res) => {

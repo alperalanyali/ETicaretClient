@@ -36,7 +36,7 @@ export class ProductcategoryService {
     this._httpService.get<ResponseModel<CategoryModel[]>>("/Category/GetAll",res => callBack(res));
   }
   createProduct(model:any,callBack:(res:ResponseModel<string>)=> void){
- 
+    debugger;
     this._httpService.post<ResponseModel<string>>("/ProductStore/create",model,res =>{
       callBack(res)      
     } );
@@ -51,7 +51,8 @@ export class ProductcategoryService {
   }
   
   getProductCategoryByProductId(productId:string,callBack:(res:ResponseModel<ProductCategoryModel[]>)=>void){
-      this._httpService.post<ResponseModel<ProductCategoryModel[]>>("/ProductCategory/GetProductCategoriesByProductId",productId,res => callBack(res));
+    let model ={productId:productId}
+      this._httpService.post<ResponseModel<ProductCategoryModel[]>>("/ProductCategory/GetProductCategoriesByProductId",model,res => callBack(res));
   }
 
   deleteById(productStoreId:string,callBack:(res:ResponseModel<string>)=> void){
@@ -61,6 +62,12 @@ export class ProductcategoryService {
 
   getStores(callBack:(res:ResponseModel<StoreModel[]>)=> void){
     this._httpService.get<ResponseModel<StoreModel[]>>('/Store/GetAll',res=> callBack(res))
+  }
+  
+  deleteProductCategoryById(id:string,callBack:(res:ResponseModel<string>)=> void){
+    debugger;
+    let model = {id:id};
+    this._httpService.post<ResponseModel<string>>('/ProductCategory/Delete',model,res=> callBack(res))
   }
   
 }

@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   count$: Observable<number>  
   categories: CategoryModel[]= [];
   productStores: ProductStoreModel[] = [];
+  selectedProductStore: ProductStoreModel = new ProductStoreModel();
   search:string=""
   constructor(private store: Store<{ count: number }>,
               private _homeService: HomeService,
@@ -61,7 +62,7 @@ export class HomeComponent implements OnInit {
      });
     
   }
-
+  
   getAllCategories(){
     this._homeService.getAllCategories(res=>{      
       this.categories = res.data;
@@ -87,5 +88,10 @@ export class HomeComponent implements OnInit {
         this._toastr2Service.toast(ToastrType.Success,res.message,"Başarılı",ToastrPosition.BottomRight );
         this._basketService.basketCount += 1;
      })
+  }
+
+  get(productStore:ProductStoreModel){
+    this.selectedProductStore = productStore;
+    
   }
 }
