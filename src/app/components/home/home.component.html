@@ -49,17 +49,18 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <form #addForm="ngForm" (ngSubmit)="addBasket(addForm)">
         <div class="card" >
           <img [src]="'../../../assets//images/'+selectedProductStore.imageUrl" class="card-img-top" alt="...">
           <div class="card-body">
             <label class="text-muted">Ürün Adı</label>
             <h5 class="card-title">{{selectedProductStore.name}}</h5>
             <label class="text-muted">Ürün Açıklaması</label>
-            <p class="card-text">{{selectedProductStore.description}}</p>
+            <p class="card-text">{{selectedProductStore?.description}}</p>
             <div class="row">
                 <div class="col-lg-4">
                       <label class="text-muted">Mağaza</label>
-                      <h6>{{selectedProductStore.store.storeName}}</h6>
+                      <h6>{{selectedProductStore.store?.storeName}}</h6>
                 </div>
                 <div class="col-lg-4">
                     <label class="text-muted">Fiyatı</label>
@@ -67,9 +68,9 @@
                 </div>
                 <div class="col-lg-4">
                   <label class="text-muted">Stok Adedi</label>
-                  <h6>{{selectedProductStore.inStock}} {{selectedProductStore.quantityType.name}}</h6>
+                  <h6>{{selectedProductStore.inStock}} {{selectedProductStore.quantityType?.name}}</h6>
                 </div>
-            </div>
+            </div>            
             <label *ngIf="selectedProductStore.productCategories.length >0">Kategoriler</label>
             <div class="row">
                 <div class="col-lg-4" *ngFor="let productCategory of selectedProductStore.productCategories">
@@ -79,14 +80,11 @@
                 </div>
             </div>       
             <div class="row">
-              <div class="col-lg-4">
-                <button class="btn btn-outline-danger btn-sm">
-                  İptal
-                </button>
+              <div class="col-lg-4">      
               </div>
               <div class="col-lg-4"></div>
               <div class="col-lg-4">
-                <button class="btn btn-outline-primary btn-sm"     (click)="addBasket(selectedProductStore.id,selectedProductStore.price)">
+                <button class="btn btn-outline-primary btn-sm"   type="submit">
                   <i class="fa fa-basket"></i>
                    Sepette Ekle
                 </button>
@@ -94,8 +92,9 @@
             </div>
           </div>
         </div>
+      </form> 
       </div>
- 
+   
     </div>
   </div>
 </div>

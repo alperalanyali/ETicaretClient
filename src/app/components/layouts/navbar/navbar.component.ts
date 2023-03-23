@@ -42,7 +42,7 @@ export class NavbarComponent implements OnInit {
     }
       
     
-    if (user.role.code == "Admin"){
+    if (user?.role?.code == "Admin"){
       this.isProductsVisible = true;
           this.navbars.push( {
             name:"Ürünler",
@@ -65,7 +65,7 @@ export class NavbarComponent implements OnInit {
              class: this.isProductsVisible ? 'visible' : "invisible"
           })
     }
-    else if(user.role.code == "Store") {
+    else if(user?.role?.code == "Store") {
       this.isProductsVisible = true;
           this.navbars.push( {
             name:"Ürünler",

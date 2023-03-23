@@ -5,9 +5,11 @@ import { decrement, increment, reset } from 'src/app/counter.actions';
 
 import { BasketService } from '../basket/service/basket.service';
 import { CategoryModel } from 'src/app/common/models/category.model';
+import { CreateBasketRequest } from './models/create-basket-request';
 import { FilterModel } from 'src/app/common/models/filter.model';
 import { HomeService } from './service/home.service';
 import { HttpClient } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ProductCategoryModel } from 'src/app/common/models/product-category.model';
 import { ProductModel } from 'src/app/common/models/product.model';
@@ -58,7 +60,8 @@ export class HomeComponent implements OnInit {
     let filterModel: FilterModel = new FilterModel();
     
     this._homeService.getAll(filterModel,res => {
-        this.productStores = res.data;      
+        if(res.data != null) 
+          this.productStores = res.data;     
      });
     
   }
@@ -73,7 +76,7 @@ export class HomeComponent implements OnInit {
       this.productStores = res.data;
     })
   }
-  addBasket(productStoreId:string,price:Number){
+  addBasket(form:NgForm){
     // console.log(productStoreId);    
     let user = JSON.parse(localStorage.getItem("user"));
     let userId;
@@ -81,12 +84,15 @@ export class HomeComponent implements OnInit {
       this._toastr.toast(ToastrType.Error,"Ürün eklemek için giriş yapınız","Hata")
     }else {
       userId = user.userId
-    }
-    console.log(user);
-     this._homeService.checkBasket(userId,productStoreId,price,res =>{
-        // this._toastr.toast(ToastrType.Success,res.message,"İşlem");
-        this._toastr2Service.toast(ToastrType.Success,res.message,"Başarılı",ToastrPosition.BottomRight );
-       
+    }    
+    let model: CreateBasketRequest =  new CreateBasketRequest();
+    model.userId = userId;
+    model.productStoreId = this.selectedProductStore.id;
+    model.quantity = 1;
+    model.totalPrice = this.selectedProductStore.price ;
+ 
+     this._homeService.checkBasket(model,res =>{     
+        this._toastr2Service.toast(ToastrType.Success,res.message,"Başarılı",ToastrPosition.BottomRight );       
      })
   }
 
