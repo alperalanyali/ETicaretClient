@@ -54,8 +54,7 @@ export class BasketService {
         callBack(res);
       })
     }
-    createOrder(order:OrderModel,basket:BasketModel,callBack:(res:PaymentResponeModel)=>void){
-            debugger;
+    createOrder(order:OrderModel,basket:BasketModel,callBack:(res:PaymentResponeModel)=>void){            
       this._http.post<PaymentResponeModel>("/Order/Create",order,res=>{
           callBack(res);     
           // this.getLastOrderByUserId(order.userId,res=>{
@@ -68,6 +67,7 @@ export class BasketService {
           //       })
           //    });
           // });    
+          
       });
     }
     getLastOrderByUserId(userId:string,callBack:(res:ResponseModel<OrderModel>)=> void){

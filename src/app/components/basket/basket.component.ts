@@ -56,8 +56,7 @@ constructor(
       user = JSON.parse(localStore);
     }
     
-    if(type=="plus"){
-      debugger;
+    if(type=="plus"){      
       basketItem.quantity += 1;
       basketItem.totalPrice = basketItem.quantity * +basketItem.productStore.price;
       this._basketService.updateBasketItem(basketItem,res=>{
@@ -68,8 +67,7 @@ constructor(
           })          
          
       })
-    }else {
-      debugger;
+    }else {      
       if(basketItem.quantity == 1){
         this._swal.callSwal("Evet","Sepetten silenecek?","Emin misiniz?","question",()=>{
           this._basketService.deleteBasketItem(basketItem.id,res=>{
@@ -120,19 +118,20 @@ constructor(
     })
   }
   confirmBasket(){
+    debugger;
     let user = JSON.parse(localStorage.getItem("user"));
     this.order.userId = user.userId;  
     this.order.basketId = this.basket.id;
     this._basketService.createOrder(this.order,this.basket,res=>{
-      if(res.paymentResult.status="false"){
-        this._toastr.toast(ToastrType.Error,res.paymentResult.errorMessage);
-      }
+      // if(res.paymentResult.status="false"){
+      //   this._toastr.toast(ToastrType.Error,res.paymentResult.errorMessage);
+      // }
       this._toastr.toast(ToastrType.Success,res.message,"İşlem");
+      let closeBtn = document.getElementById("closeBtn") as HTMLElement;
+      closeBtn.click();
+      this.getBasket();
       let orderId:string="";
-      this._basketService.getLastOrderByUserId(user.userId,res=>{
-        orderId=res.data.id;
-        this.getBasket();
-      })    
+      
     })
   }
 

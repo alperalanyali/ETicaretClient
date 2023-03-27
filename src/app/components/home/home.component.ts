@@ -92,7 +92,9 @@ export class HomeComponent implements OnInit {
     model.totalPrice = this.selectedProductStore.price ;
  
      this._homeService.checkBasket(model,res =>{     
-        this._toastr2Service.toast(ToastrType.Success,res.message,"Başarılı",ToastrPosition.BottomRight );       
+        this._toastr2Service.toast(ToastrType.Success,res.message,"Başarılı",ToastrPosition.BottomRight );    
+        let closeBtn = document.getElementById("closeBtn") as HTMLElement;
+        closeBtn.click();  
      })
   }
 
