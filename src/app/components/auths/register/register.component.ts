@@ -37,7 +37,9 @@ export class RegisterComponent implements OnInit {
     }
   }
   register(form:NgForm){
+    console.log("register");
     this._authService.register(this.registerModel,res=>{
+      console.log(res);
       if(res.isSuccess){
         this._toastr.toast(ToastrType.Success,res.message,"İşlem",ToastrPosition.BottomCenter);
         let emailOrUsername = form.controls["email"].value;
@@ -54,6 +56,7 @@ export class RegisterComponent implements OnInit {
   getRoles(){
     this._authService.getRoles(res=>{
       this.roles = res.data;
+      console.log(res.data)
     })
   }
 }

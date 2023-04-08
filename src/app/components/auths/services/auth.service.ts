@@ -24,8 +24,10 @@ export class AuthService {
     })
   }
   register(registerModel:RegisterModel,callBack:(res:ResponseModel<string>)=>void) {
-    registerModel.storeId = '51C51ABA-697F-4C8F-931D-08DB20AF4981';
-    this._httpService.post<ResponseModel<string>>("/Auth/CreateUser",registerModel,res=>callBack(res));
+    registerModel.storeId = '8A81CB18-2947-4F8F-B7B6-FBA44C8EFE67';
+    this._httpService.post<ResponseModel<string>>("/Auth/CreateUser",registerModel,res=>{callBack(res)
+      
+    });
   }
   getRoles(callBack:(res:ResponseModel<RoleModel[]>)=>void) {
       this._httpService.get<ResponseModel<RoleModel[]>>("/Role/GetAll",res=>callBack(res));

@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class GenericHttpService {
-apiUrl = "http://localhost:5272/api/v1";
+// apiUrl = "http://localhost:5272/api/v1";
+apiUrl = "https://webapialperalanyali.ecnorow.com/api/v1";
   constructor(
     private _http:HttpClient
   ) { }

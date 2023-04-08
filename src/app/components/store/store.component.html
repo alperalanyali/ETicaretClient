@@ -36,7 +36,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="staticBackdropLabel">Mağaza Ekle/Güncelle</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="clear()"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" id="closeBtn" aria-label="Close" (click)="clear()"></button>
         </div>
        <form #addStore="ngForm" (ngSubmit)="createStore(addStore)">
         <div class="modal-body">
@@ -54,8 +54,8 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="clear()">Close</button>
-          <button type="button" class="btn btn-primary">Kaydet</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  (click)="clear()">Close</button>
+          <button type="submit" class="btn btn-primary">Kaydet</button>
         </div>
     </form> 
       </div>

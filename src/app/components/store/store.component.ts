@@ -41,6 +41,7 @@ export class StoreComponent implements OnInit {
     this.store = store;
   }
   createStore(form:NgForm){
+    debugger;
     if(form.valid){
       if(this.isUpdate){
         this._storeService.update(this.store,res=>{
@@ -56,6 +57,7 @@ export class StoreComponent implements OnInit {
         })  
       }
     }
+    this.clear();
   }
 
   delete(store:StoreModel){
@@ -68,6 +70,8 @@ export class StoreComponent implements OnInit {
   }
   clear(){
     this.store = new StoreModel();
+    let closeBtn = document.getElementById('closeBtn') as HTMLElement;
+    closeBtn.click();
   }
 
  
